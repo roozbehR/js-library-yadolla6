@@ -33,7 +33,8 @@ class Quiz {
         if (this.element === null) {
             throw Error("elemendId is either false or it is not created yet");
         }
-        this.questionsArr = settings.questionsArr;
+        this.questionsArr = this.populateQuestions(settings.questionsArr);
+        console.log(this.questionsArr[0]);
         this.questionIndex = 0;
     }
     //Validates theb given settings to the Quiz consructor
@@ -43,6 +44,9 @@ class Quiz {
             throw Error('elemendId has to be of type "string", questionsArr has to be a non empty array with quesion objects inside, time has to be a string');
         }
     }
+    populateQuestions = (questionsArr) => {
+        return questionsArr.map(question => (new Question(question)).renderQuestion());
+    }
     showNextQuestion = () => {
         if (this.questionIndex === this.questionsArr.length-1) {
             console.log('cannot move further');
@@ -50,11 +54,16 @@ class Quiz {
         }
         this.questionIndex++;
         const oldQ =  document.querySelector('#question-box');
-        const newQ = new Question(this.questionsArr[this.questionIndex]);
-        oldQ.parentNode.replaceChild(newQ.renderQuestion(), oldQ);
+        oldQ.parentNode.replaceChild(this.questionsArr[this.questionIndex], oldQ);
     }
     showPreviousQuestion = () => {
-
+        if (this.questionIndex === 0) {
+            console.log('cannot move further');
+            return;
+        }
+        this.questionIndex--;
+        const oldQ =  document.querySelector('#question-box');
+        oldQ.parentNode.replaceChild(this.questionsArr[this.questionIndex], oldQ);
     }
     render = () => {
         this.element.style.width = '500px';
@@ -64,12 +73,13 @@ class Quiz {
         this.element.style.display = 'flex';
         this.element.style.alignItems = 'center';
         this.element.style.justifyContent = 'center';
-        const q = new Question(this.questionsArr[0]);
-        this.element.appendChild(q.renderQuestion());
+        this.element.appendChild(this.questionsArr[this.questionIndex]);
         const nextButton = (new NextButton()).renderNextButton();
         nextButton.addEventListener('click', this.showNextQuestion); 
-        this.element.appendChild((new PreviousButton()).renderPreviousButton());
         this.element.appendChild(nextButton);
+        const previousButton = (new PreviousButton()).renderPreviousButton();
+        previousButton.addEventListener('click', this.showPreviousQuestion);
+        this.element.appendChild(previousButton); 
         // this.element.appendChild((new Score()).renderScore());
         // this.element.appendChild((new Timer(10)).rednerTimer());
         
@@ -83,6 +93,7 @@ class Question {
         this.title = question.title;
         this.options = question.options;
         this.answer = question.answer;
+        this.isAnswered = false;
     }
     validateInput(question) {
         let {title, options, answer} = question;
@@ -99,6 +110,18 @@ class Question {
             throw Error("Answer not in options or more than one option is the answer");
         }
     }
+    handleQuestionChosen = (e) => {
+        const target = e.target;
+        if (this.isAnswered === false && target.className == 'options') {
+            if (target.innerHTML === this.answer) {
+                target.style.backgroundColor = 'green';
+            } else {
+                target.style.backgroundColor = 'orange';
+            }
+            this.isAnswered = true;
+        }
+    }
+        
     renderQuestion = () => {
         const quesitonBox = document.createElement('div');
         quesitonBox.id = 'question-box';
@@ -106,6 +129,7 @@ class Question {
         quesitonBox.appendChild(qtitle);
         const qList = document.createElement('ul');
         qList.id = 'list-of-options'
+        qList.addEventListener('click', this.handleQuestionChosen);
         this.options.map(op => {
             const option = (new Option(op)).renderOption();
             qList.appendChild(option);
