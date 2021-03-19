@@ -33,11 +33,12 @@ class Quiz {
         if (this.element === null) {
             throw Error("elemendId is either false or it is not created yet");
         }
+        this.score = (new Score()).renderScore();
+        this.previousButton = (new PreviousButton()).renderPreviousButton();
+        this.nextButton = (new NextButton()).renderNextButton();
         this.questionsArr = this.populateQuestions(settings.questionsArr);
-        console.log(this.questionsArr[0]);
         this.questionIndex = 0;
     }
-    //Validates theb given settings to the Quiz consructor
     validateInput(settings) {
         let {elementId, questionsArr, time} = settings;
         if (!Array.isArray(questionsArr) || (typeof elementId !== 'string') || !questionsArr.length || typeof time !== 'string') {
@@ -45,7 +46,7 @@ class Quiz {
         }
     }
     populateQuestions = (questionsArr) => {
-        return questionsArr.map(question => (new Question(question)).renderQuestion());
+        return questionsArr.map(question => (new Question(question, this.score)).renderQuestion());
     }
     showNextQuestion = () => {
         if (this.questionIndex === this.questionsArr.length-1) {
@@ -66,34 +67,25 @@ class Quiz {
         oldQ.parentNode.replaceChild(this.questionsArr[this.questionIndex], oldQ);
     }
     render = () => {
-        this.element.style.width = '500px';
-        this.element.style.height = '400px';
-        this.element.style.borderRadius = '10px';
-        this.element.style.backgroundColor = 'red';
-        this.element.style.display = 'flex';
-        this.element.style.alignItems = 'center';
-        this.element.style.justifyContent = 'center';
+        this.element.style = 'width: 500px; height: 400px; border-radius: 10px; background-color: red;'+
+         'display: flex; align-items: center; justify-content: center;'
         this.element.appendChild(this.questionsArr[this.questionIndex]);
-        const nextButton = (new NextButton()).renderNextButton();
-        nextButton.addEventListener('click', this.showNextQuestion); 
-        this.element.appendChild(nextButton);
-        const previousButton = (new PreviousButton()).renderPreviousButton();
-        previousButton.addEventListener('click', this.showPreviousQuestion);
-        this.element.appendChild(previousButton); 
-        // this.element.appendChild((new Score()).renderScore());
-        // this.element.appendChild((new Timer(10)).rednerTimer());
+        this.nextButton.addEventListener('click', this.showNextQuestion);
+        this.element.appendChild(this.nextButton);
+        this.previousButton.addEventListener('click', this.showPreviousQuestion);
+        this.element.appendChild(this.previousButton);
+        this.element.appendChild(this.score);
         
     }
 }
-
-
 class Question {
-    constructor(question) {
+    constructor(question, score) {
         this.validateInput(question);
         this.title = question.title;
         this.options = question.options;
         this.answer = question.answer;
         this.isAnswered = false;
+        this.score =  score;
     }
     validateInput(question) {
         let {title, options, answer} = question;
@@ -112,11 +104,15 @@ class Question {
     }
     handleQuestionChosen = (e) => {
         const target = e.target;
-        if (this.isAnswered === false && target.className == 'options') {
+        if (this.isAnswered === false && target.className == 'options' && this.score.innerHTML > -1) {
             if (target.innerHTML === this.answer) {
                 target.style.backgroundColor = 'green';
+                const currentScore = parseInt(this.score.innerHTML);
+                this.score.innerHTML = currentScore + 5;
             } else {
                 target.style.backgroundColor = 'orange';
+                const currentScore = parseInt(this.score.innerHTML);
+                this.score.innerHTML = currentScore - 5;
             }
             this.isAnswered = true;
         }
@@ -166,24 +162,10 @@ class Option {
     renderOption = () => {
         const listItem = document.createElement('li');
         listItem.className = 'options'
-        // listItem.style = 'width: 300px; height: 20px; border-radius: 5px; margin: 10px; background-color: Aqua; text-align: center;'
         listItem.appendChild(document.createTextNode(this.op));
         return listItem;
     }
 }
-
-class Score {
-    constructor() {
-        this.score = 0;
-    }
-    renderScore = () => {
-        const scoreBox = document.createElement('div');
-        scoreBox.className = 'scoreBox';
-        scoreBox.appendChild(document.createTextNode("Score: "+ this.score));
-        return scoreBox;
-    }
-}
-
 class NextButton {
     renderNextButton = () => {
         const nextButton = document.createElement('button')
@@ -200,162 +182,46 @@ class PreviousButton {
         return previousButton
     }
 }
-// class Timer {
-//     constructor(time) {
-//         this.validateInput(time);
-//         this.time = time;
-//     }
-//     validateInput(time) {
-//         if (typeof time !== 'number' || time > 60 || time < 0) {
-//             throw Error('time has to be a number from 1 to 60 seconds inclusive');
-//         }
-//     }
-//     rednerTimer = () => {
-//         const timerBox = document.createElement('div');
-//         timerBox.className = "timer";
-//         setInterval(this.countDown, 1000)
-//         return timerBox;
-//     }
-//     countDown = () => {
-//         const timerBox = document.querySelector('.timer');
-//         timerBox.textContent = `${0}:${this.time}`;
-//         this.time--;
-//         if (this.time < 0) {
-//             timerBox.innerHTML = "Running out of time";
-//             clearInterval(quizTime);
-//         }
-//     }
-
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// class Question {
-//     // constructor(question) {
-//     //     this.text = question.title;
-//     //     this.options = question.options;
-//     //     this.answer = question.answer;
-//     // }
-//     renderQuestion = (element) => {
-//         const box = document.createElement('div');
-//         box.className = "question-box";
-//         box.style.height = '200px';
-//         box.style.width = '200px';
-//         box.style.backgroundColor = 'blue';
-//         element.append(box);
-//     }
-// }
-
-
-
-
-//Creates the quiz template
-// function makeQuizBox() {
-//     const allDocElements = document.querySelectorAll();
-//     const elementsWithSameId = allDocElements(element => element.id === 'myQuiz');
-//     if (elementsWithSameId.length > 0) {
-//         console.log("Remove the elment with 'myQuizId', then make create your quiz");
-//         return;
-//     }
-//     const quiz = document.createElement('div');
-//     quiz.id = 'myQuiz';
-//     quiz.style = 'width: 500px; height: 500pxpx; background-color: Aqua;'
-//     const body = document.querySelector('body');
-//     body.append(quiz);
-// }
-// //Looks for duplicates in the given questions array
-// function lookForDuplicates(questions) {
-//     const res = [];
-//     for (let i = 0; i < questions.length; i++) {
-//         if (!res.includes(questions[i])) {
-//             res.push(questions[i]);
-//         }
-//      }
-//     return res;
-// }
-// //Checks if the give questions are valid or not
-// function InvalidInput(questions) {
-//     if (!questions.length || !Array.isArray(questions)) {
-//         console.log("Wrong input or the array is empty!");
-//         return;
-//     }
-// }
-// Quiz.prototype = {
-//     makeQuiz: function () {
-//         const allDocElements = document.querySelectorAll();
-//         const elementsWithSameId = allDocElements(element => element.id === 'myQuiz');
-//         if (elementsWithSameId.length > 0) {
-//             console.log("Remove the elment with 'myQuizId', then make create your quiz");
-//             return;
-//         }
-//         const quiz = document.createElement('div');
-//         quiz.id = 'myQuiz';
-//         quiz.style = 'width: 500px; height: 500pxpx; background-color: Aqua;'
-//         const body = document.querySelector('body');
-//         body.append(quiz);
-//     }
-// }
-
-
+class Timer {
+    constructor(time) {
+        this.validateInput(time);
+        this.time = time;
+    }
+    validateInput(time) {
+        if (typeof time !== 'number' || time < 1) {
+            throw Error('time has a positive number');
+        }
+    }
+    rednerTimer = () => {
+        const timerBox = document.createElement('div');
+        timerBox.className = "timer";
+        setInterval(this.countDown, 1000)
+        return timerBox;
+    }
+    startCountDown = () => {
+        const timerBox = document.querySelector('.timer');
+        timerBox.textContent = `${0}:${this.time}`;
+        this.time--;
+        if (this.time < 0) {
+            timerBox.innerHTML = "Running out of time";
+            clearInterval(quizTime);
+        }
+    }
+    competeCountDown = () => {
+
+    }
+
+}
+class Score {
+    renderScore = () => {
+        const scoreBox = document.createElement('div');
+        scoreBox.id = 'score-box';
+        scoreBox.appendChild(document.createTextNode(0))
+        return scoreBox;
+    }
+}
 const makeAQuiz = (json) => {
     const q = new Quiz(json)
     q.render();
 }
+
