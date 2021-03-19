@@ -7,24 +7,54 @@ makeAQuiz({
     elementId: '#myQuiz',
     questionsArr: [
         {
-            title: "What is your name?",
+            title: "Q1",
             options: [
-                "Jack",
-                "Jhon",
-                "Jane",
-                "Michael"
+                "1",
+                "2",
+                "3",
+                "4"
             ],
-            answer: "Michael"
+            answer: "1"
         },
         {
-            title: "kjasd",
+            title: "Q2",
             options: [
-                "Jacrewtgk",
-                "Jhoreten",
-                "Janrete",
-                "Michael"
+                "1",
+                "2",
+                "3",
+                "4"
             ],
-            answer: "Michael"
+            answer: "2"
+        },
+        {
+            title: "Q3",
+            options: [
+                "1",
+                "2",
+                "3",
+                "4"
+            ],
+            answer: "3"
+        },
+        {
+            title: "Q4",
+            options: [
+                "1",
+                "2",
+                "3",
+                "4"
+            ],
+            answer: "4"
+        },
+        {
+            title: "Q5",
+            options: [
+                "1",
+                "2",
+                "3",
+                "4"
+            ],
+            answer: "1"
         }
     ],
     time: '1:26'
