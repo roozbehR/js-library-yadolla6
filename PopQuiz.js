@@ -6,23 +6,19 @@ Sample input of the quiz:
 
 {
     elementId: 'myQuiz'
-    questionsArr = [
-        {
-            title: "What is your name?",
-            options: [
-                "Jack",
-                "Jhon",
-                "Jane",
-                "Michael"
-            ]
-            answer: "Michael"
-        }
-    ]
-    time: '1:26'
+    {
+        title: "What is your name?",
+        options: [
+            "Jack",
+            "Jhon",
+            "Jane",
+            "Michael"
+        ]
+        answer: "Michael"
+    }
+]
+time: '1:26'
 }
-
-
-
 */
 
 
@@ -33,17 +29,53 @@ class Quiz {
         if (this.element === null) {
             throw Error("elemendId is either false or it is not created yet");
         }
+        this.totalTime = this.giveTotalTime(settings.time.minutes, settings.time.seconds);
         this.score = (new Score()).renderScore();
         this.previousButton = (new PreviousButton()).renderPreviousButton();
         this.nextButton = (new NextButton()).renderNextButton();
+        this.timerBox = null;
+        this.timeInterval = null;
         this.questionsArr = this.populateQuestions(settings.questionsArr);
         this.questionIndex = 0;
     }
     validateInput(settings) {
         let {elementId, questionsArr, time} = settings;
-        if (!Array.isArray(questionsArr) || (typeof elementId !== 'string') || !questionsArr.length || typeof time !== 'string') {
+        let {seconds, minutes, hours} = time;
+        if (!Array.isArray(questionsArr) || (typeof elementId !== 'string') || !questionsArr.length || typeof seconds === 'string' || typeof minutes === 'string') {
             throw Error('elemendId has to be of type "string", questionsArr has to be a non empty array with quesion objects inside, time has to be a string');
         }
+    }
+    giveTotalTime = (minutes, seconds) => {
+        return ((minutes * 60) + seconds);
+    }
+    renderTime = () => {
+        this.timerBox = document.createElement('div');
+        this.timerBox.className = "timer";
+        this.timerBox.innerHTML =this.formatTime();
+        this.timeInterval = setInterval(this.countDown, 1000);
+        return this.timerBox;
+    }
+    countDown = () => {
+        if (this.totalTime === 0) {
+            this.timerBox.innerHTML = "Ran out of time!"
+            clearInterval(this.timeInterval);
+        } 
+        else if (this.totalTime > 0) {
+            this.totalTime--;
+            this.timerBox.innerHTML = this.formatTime();
+        }
+
+    }
+    formatTime = () => {
+        let minutes = Math.floor((this.totalTime/60) % 60);
+        let seconds = Math.floor((this.totalTime % 60));
+        let time = `${minutes}:${seconds}`;
+        if (this.totalTime < 10) {
+            time = `0${minutes}:0${seconds}`;
+        } else if (minutes < 10) {
+            time = `0${minutes}:${seconds}`;
+        }
+        return time;
     }
     populateQuestions = (questionsArr) => {
         return questionsArr.map(question => (new Question(question, this.score)).renderQuestion());
@@ -74,7 +106,8 @@ class Quiz {
         this.element.appendChild(this.nextButton);
         this.previousButton.addEventListener('click', this.showPreviousQuestion);
         this.element.appendChild(this.previousButton);
-        this.element.appendChild(this.score);
+        this.element.appendChild(this.score);       
+        this.element.appendChild(this.renderTime());
         
     }
 }
@@ -104,7 +137,8 @@ class Question {
     }
     handleQuestionChosen = (e) => {
         const target = e.target;
-        if (this.isAnswered === false && target.className == 'options' && this.score.innerHTML > -1) {
+        const timerBox = document.querySelector('.timer');
+        if (this.isAnswered === false && target.className == 'options' && this.score.innerHTML > -1 && timerBox.innerHTML !== 'Ran out of time!') {
             if (target.innerHTML === this.answer) {
                 target.style.backgroundColor = 'green';
                 const currentScore = parseInt(this.score.innerHTML);
