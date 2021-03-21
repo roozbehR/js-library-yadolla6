@@ -57,5 +57,8 @@ makeAQuiz({
             answer: "1"
         }
     ],
-    time: '1:26'
+    time: {
+        minutes: 0,
+        seconds: 10
+    }
 });
