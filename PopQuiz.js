@@ -37,6 +37,9 @@ class Quiz {
         this.timeInterval = null;
         this.questionsArr = this.populateQuestions(settings.questionsArr);
         this.questionIndex = 0;
+        this.header = document.createElement('div');
+        this.questionsPart = document.createElement('div');
+        this.bottomPart = document.createElement('div');
     }
     validateInput(settings) {
         let {elementId, questionsArr, time} = settings;
@@ -99,15 +102,19 @@ class Quiz {
         oldQ.parentNode.replaceChild(this.questionsArr[this.questionIndex], oldQ);
     }
     render = () => {
-        this.element.style = 'width: 500px; height: 400px; border-radius: 10px; background-color: red;'+
-         'display: flex; align-items: center; justify-content: center;'
-        this.element.appendChild(this.questionsArr[this.questionIndex]);
-        this.nextButton.addEventListener('click', this.showNextQuestion);
-        this.element.appendChild(this.nextButton);
+        this.header.id = "quiz-header";
+        this.questionsPart.id = "quiz-question-part";
+        this.bottomPart.id = "quiz-bottom-part";
+        this.header.appendChild(this.renderTime());
+        this.header.appendChild(this.score);
+        this.questionsPart.appendChild(this.questionsArr[this.questionIndex]);
         this.previousButton.addEventListener('click', this.showPreviousQuestion);
-        this.element.appendChild(this.previousButton);
-        this.element.appendChild(this.score);       
-        this.element.appendChild(this.renderTime());
+        this.bottomPart.appendChild(this.previousButton);
+        this.nextButton.addEventListener('click', this.showNextQuestion);    
+        this.bottomPart.appendChild(this.nextButton);
+        this.element.appendChild(this.header);
+        this.element.appendChild(this.questionsPart);
+        this.element.appendChild(this.bottomPart);
         
     }
 }

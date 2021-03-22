@@ -4,7 +4,7 @@
 
 // Circle Generator
 makeAQuiz({
-    elementId: '#myQuiz',
+    elementId: "#myQuiz",
     questionsArr: [
         {
             title: "Q1",
@@ -62,3 +62,4 @@ makeAQuiz({
         seconds: 10
     }
 });
+

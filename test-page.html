@@ -5,49 +5,171 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <title>JS Libraries</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-
-    <!------- Loading JS scripts ------->
-    <!-- When loading JS scripts, considerations should be made regarding when
-         the DOM is being loaded, and when different scripts 
-         depend on each other. Below are examples of a few different ways to load the scripts.
-
-     -->
-
-     <!-- Load any CSS before the JS in case you need to access styles in your scripts. -->
-     <!-- <link rel="stylesheet" type="text/css" href="someStylesheet.css"> -->
-
-   	<!-- If you don't use either 'async' or 'defer', the HTML parsing/DOM loading is blocked until the script is downloaded and executed. -->
-    <!-- Since it is the top script on the page, it will block 
-      before loading everything under it (including the <body>).  -->
-
-    <!-- 'defer' states that the script should be executed after the HTML is parsed.
-         If multiple scripts have 'defer', they are loaded one after the other.  
-         This will guarantee execution order, and ensure that scripts that depend on each other load
-         in an order that will not cause errors. -->
-    <!-- First we load jquery from a Google CDN (content delivery network). -->
-    <!-- Then we load a script that depends on jQuery -->
+    <link rel="stylesheet" href="example-style.css">
     <script defer type="text/javascript" src='PopQuiz.js'></script>
-    <!-- Then we load a script that depends on our libraries (and jQuery) -->
     <script defer type="text/javascript" src='example.js'></script>
-
-    <!-- 
-    - 'async' states that it is safe to download the script without blocking 
-    HTML parsing, and execute  once downloaded (DOM loading, if not completed, pauses during script execution).
-    This allows for quicker loading of the DOM content while waiting for scripts to download.
-    Note that if multiple scripts are 'async', their order
-    of loading is *not* guaratneed, and async scripts may also be executed after 
-    the 'DOMContentLoaded' event is fired (we make up for this in the dom_load_async.js file).
-    * General rule: don't use async on scripts that depend on each other. *
-     Often scripts like ads and analytics are loaded async since they don't depend
-     on other scipts.
-    -->
-
  </head>
  <body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">Welcome to PopQuiz</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Example Quiz<span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
- 	<div id='myId'>Here's some text</div>
-     <div id='myQuiz'></div>
+
+  <div class="container-sm mt-3">
+    <div class="card">
+        <div class="card-header">
+            Quiz
+        </div>
+        <div class="card-body">
+            <div class="col">
+              <div class="row">
+                <div id="myQuiz"></div>
+              </div>
+                <div class="row">
+                    <div id="quiz"></div>
+                </div>
+                <div class="col">
+                    <pre class="code"><span class="text-primary">makeAQuiz</span>({
+<span class="text-danger">elementId: </span>'#myQuiz',
+<span class="text-danger">questionsArr:</span> [{<span class="text-danger">title:</span> 'Where is this place?',
+             <span class="text-danger">options:</span> [<span class="text-danger">'PopQuiz'</span>,
+                       <span class="text-danger">'Canada'</span>,
+                       <span class="text-danger">'Random Place'</span>],
+                       <span class="text-danger">answer:</span> 'PopQuiz'}
+                       {<span class="text-danger">title:</span> 'Are you a csc309 student?',
+                       <span class="text-danger">options:</span> [<span class="text-danger">'Yes'</span>,
+                                 <span class="text-danger">'No'</span>,
+                                 <span class="text-danger">'I don't know'</span>],
+                                 <span class="text-danger">answer:</span> 'Yes'}],
+                                 <span class="text-danger">time:</span> {<span class="text-danger">minutes:</span> 0,
+                                 <span class="text-danger">minutes:</span> 50}
+                                });
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <div class="card mt-3">
+    <div class="card-header">
+        Settings Parameters
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Parameter</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Required</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">elementId</th>
+                    <td>ID of a div container given created and given by the user</td>
+                    <td>String</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                  <th scope="row">questionsArr</th>
+                  <td>User questions data</td>
+                  <td>Array of JSON, which each JSON desribes a question</td>
+                  <td>Yes</td>
+              </tr>
+                <tr>
+                    <th scope="row">time</th>
+                    <td>The time limit determined by the user</td>
+                    <td>JSON</td>
+                    <td>Yes</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card mt-3">
+    <div class="card-header">
+        Question Parameters
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Parameter</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Required</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">title</th>
+                    <td>Questions description/title</td>
+                    <td>String</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <th scope="row">options</th>
+                    <td>Options of the question determined by the user</td>
+                    <td>Array of strings</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <th scope="row">answer</th>
+                    <td>Answer to the question determined by the user</td>
+                    <td>String</td>
+                    <td>Yes</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card mt-3">
+    <div class="card-header">
+        Time Parameters
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Parameter</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Required</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">minutes</th>
+                    <td>minutes protion of the total given time to complete the quiz</td>
+                    <td>Integer</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <th scope="row">seconds</th>
+                    <td>seconds protion of the total given time to complete the quiz</td>
+                    <td>Integer</td>
+                    <td>Yes </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+
+
+     <!-- <div id='myQuiz'></div> -->
 
  </body>
 
