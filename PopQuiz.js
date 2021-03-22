@@ -33,6 +33,7 @@ class Quiz {
         this.score = (new Score()).renderScore();
         this.previousButton = (new PreviousButton()).renderPreviousButton();
         this.nextButton = (new NextButton()).renderNextButton();
+        this.startButton = (new StartButton()).renderStartButton();
         this.timerBox = null;
         this.timeInterval = null;
         this.questionsArr = this.populateQuestions(settings.questionsArr);
@@ -40,6 +41,7 @@ class Quiz {
         this.header = document.createElement('div');
         this.questionsPart = document.createElement('div');
         this.bottomPart = document.createElement('div');
+        this.popUp = (new PopUp("Click this button whenever you are ready")).renderPopUp();
     }
     validateInput(settings) {
         let {elementId, questionsArr, time} = settings;
@@ -60,14 +62,14 @@ class Quiz {
     }
     countDown = () => {
         if (this.totalTime === 0) {
-            this.timerBox.innerHTML = "Ran out of time!"
+            this.timerBox.innerHTML = "00:00"
             clearInterval(this.timeInterval);
+            this.showFinishedTime();
         } 
         else if (this.totalTime > 0) {
             this.totalTime--;
             this.timerBox.innerHTML = this.formatTime();
         }
-
     }
     formatTime = () => {
         let minutes = Math.floor((this.totalTime/60) % 60);
@@ -102,11 +104,19 @@ class Quiz {
         oldQ.parentNode.replaceChild(this.questionsArr[this.questionIndex], oldQ);
     }
     render = () => {
+        this.startButton.addEventListener('click', this.renderTheQuiz);
+        this.popUp.append(this.startButton);
+        this.element.appendChild(this.popUp);
+    }
+    renderTheQuiz = (e) => {
+        this.element.removeChild(this.popUp);
         this.header.id = "quiz-header";
         this.questionsPart.id = "quiz-question-part";
         this.bottomPart.id = "quiz-bottom-part";
         this.header.appendChild(this.renderTime());
         this.header.appendChild(this.score);
+        const observer = new MutationObserver(this.showGameOver);
+        observer.observe(this.score, {subtree: true, childList: true});
         this.questionsPart.appendChild(this.questionsArr[this.questionIndex]);
         this.previousButton.addEventListener('click', this.showPreviousQuestion);
         this.bottomPart.appendChild(this.previousButton);
@@ -116,6 +126,18 @@ class Quiz {
         this.element.appendChild(this.questionsPart);
         this.element.appendChild(this.bottomPart);
         
+    }
+    showGameOver = () => {
+        if (this.score.innerHTML < 0) {
+            this.popUp = (new PopUp('Game Over, your score is ' + this.score.innerHTML)).renderPopUp();
+            this.element.insertBefore(this.popUp, this.element.firstChild);
+            clearInterval(this.timeInterval);
+        }
+    }
+    showFinishedTime = () => {
+        this.popUp = (new PopUp('Time is up! your score is ' + this.score.innerHTML)).renderPopUp();
+        this.element.insertBefore(this.popUp, this.element.firstChild);
+        clearInterval(this.timeInterval);
     }
 }
 class Question {
@@ -145,7 +167,7 @@ class Question {
     handleQuestionChosen = (e) => {
         const target = e.target;
         const timerBox = document.querySelector('.timer');
-        if (this.isAnswered === false && target.className == 'options' && this.score.innerHTML > -1 && timerBox.innerHTML !== 'Ran out of time!') {
+        if (this.isAnswered === false && target.className == 'options' && this.score.innerHTML > -1 && timerBox.innerHTML !== '00:00') {
             if (target.innerHTML === this.answer) {
                 target.style.backgroundColor = 'green';
                 const currentScore = parseInt(this.score.innerHTML);
@@ -223,6 +245,14 @@ class PreviousButton {
         return previousButton
     }
 }
+class StartButton {
+    renderStartButton = () => {
+        const startButton = document.createElement('button')
+        startButton.className = 'start-button';
+        startButton.innerHTML = 'Start';
+        return startButton;
+    }
+}
 class Timer {
     constructor(time) {
         this.validateInput(time);
@@ -248,9 +278,6 @@ class Timer {
             clearInterval(quizTime);
         }
     }
-    competeCountDown = () => {
-
-    }
 
 }
 class Score {
@@ -261,6 +288,33 @@ class Score {
         return scoreBox;
     }
 }
+class PopUp {
+    constructor(message) {
+        this.message = message;
+    }
+    renderPopUp = () => {
+        const popUp = document.createElement('div')
+        popUp.className = 'popUp';
+        const welcomeText = document.createElement('div');
+        welcomeText.id = 'welcome-text'
+        welcomeText.appendChild(document.createTextNode(this.message));
+        popUp.appendChild(welcomeText);
+        return popUp;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 const makeAQuiz = (json) => {
     const q = new Quiz(json)
     q.render();

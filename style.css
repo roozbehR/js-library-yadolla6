@@ -14,6 +14,7 @@ body {
   height: 500px;
   background-color: antiquewhite;
   border-radius: 10px;
+  position: relative;
 }
 #quiz-header {
   width: 95%;
@@ -111,4 +112,15 @@ body {
   color: black;
   margin-top: 3px;
   height: 30px;
+}
+.popUp {
+  border-radius: 10px;
+  background-color: red;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: absolute;
+  z-index: 2;
 }
