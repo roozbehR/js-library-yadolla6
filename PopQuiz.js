@@ -151,7 +151,7 @@ class Question {
                 const currentScore = parseInt(this.score.innerHTML);
                 this.score.innerHTML = currentScore + 5;
             } else {
-                target.style.backgroundColor = 'orange';
+                target.style.backgroundColor = 'red';
                 const currentScore = parseInt(this.score.innerHTML);
                 this.score.innerHTML = currentScore - 5;
             }
@@ -210,7 +210,7 @@ class Option {
 class NextButton {
     renderNextButton = () => {
         const nextButton = document.createElement('button')
-        nextButton.id = 'next-button';
+        nextButton.className = 'quiz-button';
         nextButton.innerHTML = 'Next'
         return nextButton
     }
@@ -218,7 +218,7 @@ class NextButton {
 class PreviousButton {
     renderPreviousButton = () => {
         const previousButton = document.createElement('button')
-        previousButton.id = 'previous-button';
+        previousButton.className = 'quiz-button';
         previousButton.innerHTML = 'Previous'
         return previousButton
     }
@@ -256,7 +256,7 @@ class Timer {
 class Score {
     renderScore = () => {
         const scoreBox = document.createElement('div');
-        scoreBox.id = 'score-box';
+        scoreBox.className = 'score-box';
         scoreBox.appendChild(document.createTextNode(0))
         return scoreBox;
     }

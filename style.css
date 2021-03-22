@@ -1,63 +1,114 @@
+body {
+  background-image: url("ac_valhalla_settlement.jpg");
+}
+.card,
+.mt-3 {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
 #myQuiz {
   width: 600px;
   height: 500px;
-  background-color: rgba(1, 1, 1, 0.8);
+  background-color: antiquewhite;
   border-radius: 10px;
 }
 #quiz-header {
-  width: 300px;
+  width: 95%;
   height: 50px;
-  background-color: white;
   margin-left: auto;
   margin-right: auto;
   margin-top: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60%;
 }
 #quiz-question-part {
-  width: 300px;
+  width: 95%;
   height: 300px;
-  background-color: blue;
   margin-left: auto;
   margin-right: auto;
   margin-top: 2%;
 }
 #quiz-bottom-part {
-  width: 300px;
+  width: 90%;
   height: 100px;
-  background-color: aqua;
   margin-left: auto;
   margin-right: auto;
   margin-top: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50%;
 }
 #question-box {
   text-align: center;
   width: 90%;
   height: 70%;
   margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
 }
-
+.quiz-button {
+  width: 20%;
+  height: 50%;
+  border-radius: 10px;
+  background-color: rgba(0, 128, 0, 0.8);
+  color: white;
+  font-family: "Roboto", sans-serif;
+  transition: all 0.2s;
+  box-sizing: border-box;
+  border: none;
+}
+.quiz-button:focus {
+  outline: 0;
+}
+.quiz-button:hover {
+  transform: scale(1.1);
+  transition: all 1.05s;
+  color: red;
+}
+.timer,
+.score-box {
+  background-color: red;
+  color: white;
+  font-size: x-large;
+  border-radius: 10px;
+  border: solid 2px;
+  height: 40px;
+  width: 200px;
+  text-align: center;
+}
 #list-of-options {
   list-style-type: none;
   padding-left: 0;
 }
 .options {
-  background-color: white;
+  transition: background-color 0.5s;
+  font-family: "Roboto", sans-serif;
+  background-color: gold;
+  border-radius: 10px;
   margin-left: 0px;
-  border: 1px solid black;
-  border-radius: 5px;
   margin: 20px;
-  height: 40px;
-  vertical-align: middle;
-  width: 300px;
+  height: 45px;
+  width: 70%;
   margin-left: auto;
   margin-right: auto;
 }
+.options:hover {
+  transform: scale(1.05);
+  transition: all 1.07s;
+}
 #title-box {
-  background-color: gray;
-  width: 80%;
+  font-family: "Roboto", sans-serif;
+  font-size: x-large;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
-  border: 1px solid black;
-  border-radius: 5px;
+  color: black;
   margin-top: 3px;
   height: 30px;
 }
