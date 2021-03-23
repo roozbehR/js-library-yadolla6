@@ -1,9 +1,9 @@
 body {
-  background-image: url("../../images/ac_valhalla_settlement.jpg");
+  background-image: url("/../images/ac_valhalla_settlement.jpg");
 }
 @font-face {
   font-family: "ubisoft_sansbold";
-  src: url("../../font/ubisoftsans-bold.ttf");
+  src: url("/../font/ubisoftsans-bold.ttf");
 }
 #nav-container {
   display: flex;
