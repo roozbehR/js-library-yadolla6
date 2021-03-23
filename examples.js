@@ -74,7 +74,12 @@ makeAQuiz({
                     options: ['Yes',
                                'No',
                                "I don't know"],
-                    answer: 'Yes'}],
+                    answer: 'Yes'},
+                    {title: 'Who is csc309 professor?',
+                    options: ['Mark Kazakevich',
+                               'Random Guy',
+                               "Me"],
+                    answer: 'Mark Kazakevich'}],
     time: {minutes: 0,
-           seconds: 10}});
+           seconds: 7}});
 
