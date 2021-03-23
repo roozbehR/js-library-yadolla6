@@ -1,0 +1,130 @@
+body {
+  background-image: url("/images/ac_valhalla_settlement.jpg");
+}
+.card,
+.mt-3 {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+#myQuiz {
+  width: 100%;
+  height: 500px;
+  background-color: antiquewhite;
+  border-radius: 10px;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+}
+#quiz-header {
+  width: 95%;
+  height: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60%;
+}
+#quiz-question-part {
+  width: 95%;
+  height: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2%;
+}
+#quiz-bottom-part {
+  width: 90%;
+  height: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50%;
+}
+#question-box {
+  text-align: center;
+  width: 90%;
+  height: 70%;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.quiz-button {
+  width: 20%;
+  height: 50%;
+  border-radius: 10px;
+  background-color: rgba(0, 128, 0, 0.8);
+  color: white;
+  font-family: "Roboto", sans-serif;
+  transition: all 0.2s;
+  box-sizing: border-box;
+  border: none;
+}
+.quiz-button:focus {
+  outline: 0;
+}
+.quiz-button:hover {
+  transform: scale(1.1);
+  transition: all 1.05s;
+  color: red;
+}
+.timer,
+.score-box {
+  background-color: red;
+  color: white;
+  font-size: x-large;
+  border-radius: 10px;
+  border: solid 2px;
+  height: 40px;
+  width: 200px;
+  text-align: center;
+}
+#list-of-options {
+  list-style-type: none;
+  padding-left: 0;
+}
+.options {
+  transition: background-color 0.5s;
+  font-family: "Roboto", sans-serif;
+  background-color: gold;
+  border-radius: 10px;
+  margin-left: 0px;
+  margin: 20px;
+  height: 45px;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.options:hover {
+  transform: scale(1.05);
+  transition: all 1.07s;
+}
+#title-box {
+  font-family: "Roboto", sans-serif;
+  font-size: x-large;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  color: black;
+  margin-top: 3px;
+  height: 30px;
+}
+.popUp {
+  font-family: "Roboto", sans-serif;
+  font-size: xx-large;
+  border-radius: 10px;
+  background-color: rgba(255, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: absolute;
+  z-index: 2;
+}
