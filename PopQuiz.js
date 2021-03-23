@@ -129,13 +129,13 @@ class Quiz {
     }
     showGameOver = () => {
         if (this.score.innerHTML < 0) {
-            this.popUp = (new PopUp('Game Over, your score is ' + this.score.innerHTML)).renderPopUp();
+            this.popUp = (new PopUp("Game Over, your score is less than zero!")).renderPopUp();
             this.element.insertBefore(this.popUp, this.element.firstChild);
             clearInterval(this.timeInterval);
         }
     }
     showFinishedTime = () => {
-        this.popUp = (new PopUp('Time is up! your score is ' + this.score.innerHTML)).renderPopUp();
+        this.popUp = (new PopUp('Time is up! your score is ' + this.score.innerHTML + '/' + this.questionsArr.length*5)).renderPopUp();
         this.element.insertBefore(this.popUp, this.element.firstChild);
         clearInterval(this.timeInterval);
     }
@@ -152,7 +152,7 @@ class Question {
     validateInput(question) {
         let {title, options, answer} = question;
         if (typeof title !== 'string' || typeof answer !== 'string' || !Array.isArray(options) 
-        || options.length !== 4) {
+        || options.length > 4) {
             throw Error('Invalid input for the quesion object');
         }
         const optionsNotString = options.filter((op) => typeof op !== 'string');
