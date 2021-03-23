@@ -1,8 +1,51 @@
 body {
-  background-image: url("/images/ac_valhalla_settlement.jpg");
+  background-image: url("../../images/ac_valhalla_settlement.jpg");
 }
-.card,
-.mt-3 {
+@font-face {
+  font-family: "ubisoft_sansbold";
+  src: url("/Users/rouzbehyadollahi/Library/Fonts/ubisoftsans-bold.ttf");
+}
+#nav-container {
+  display: flex;
+  background-color: #252d3a;
+  color: white;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 10%;
+}
+button,
+li {
+  flex-direction: column;
+  font-family: "ubisoft_sansbold", serif;
+  font-size: 25px;
+  cursor: default;
+  transition: all 1s ease-out;
+}
+button {
+  background-color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 10px;
+  outline: none;
+}
+li {
+  display: inline-block;
+  margin: 0 30px;
+  padding: 0 20px;
+  color: white;
+}
+.logo {
+  cursor: default;
+}
+li:hover {
+  transform: scale(1.2);
+  color: red;
+}
+button:hover {
+  transform: scale(1.2);
+  color: red;
+}
+.card {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
@@ -127,4 +170,23 @@ body {
   display: flex;
   position: absolute;
   z-index: 2;
+}
+.AC {
+  background-color: #252d3a;
+  border-radius: 20px;
+  border: white 2px solid;
+  transition: all 0.5s ease-out;
+  color: white;
+  cursor: pointer;
+}
+.AC p {
+  flex-direction: column;
+  padding: 10px 10px 10px 10px;
+  font-family: "ubisoft_sansbold", serif;
+  font-size: 20px;
+  flex-wrap: wrap;
+}
+.AC:hover {
+  transform: scale(1.01);
+  color: aquamarine;
 }

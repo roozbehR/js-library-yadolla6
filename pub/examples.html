@@ -6,22 +6,21 @@
     
     <title>PopQuiz.js</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/PopQuiz.css">
-    <script defer type="text/javascript" src='/js/PopQuiz.js'></script>
-    <script defer type="text/javascript" src='/js/examples.js'></script>
+    <link rel="stylesheet" href="./css/PopQuiz.css">
+    <script defer type="text/javascript" src='./js/PopQuiz.js'></script>
+    <script defer type="text/javascript" src='./js/examples.js'></script>
  </head>
  <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="#">PopQuiz</a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Here is a sample quiz<span class="sr-only">(current)</span></a>
-        </li>
-      </ul>
+    <div id="nav-container">
+        <ul>
+            <li>PopQuiz Demo</li>
+            <li>CSC309</li>
+            <li>Give FeedBack</li>
+            <li>Inspired By Bootstrap Docs</li>
+        </ul>
+        <button>Contact Via Quercus</button>
     </div>
-  </nav>
- <div class="container-sm mt-3">
+ <div class="container-sm mt-3" id="main">
     <div class="card">
         <div class="card-header">
             Quiz
@@ -54,15 +53,15 @@
             </div>
         </div>
     </div>
-  <div class="card mt-3">
+  <div class="card mt-3 AC">
     <div class="card-header">
-        Settings Parameters
+        Settings Fields
     </div>
     <div class="card-body">
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Parameter</th>
+                    <th scope="col">Fields</th>
                     <th scope="col">Description</th>
                     <th scope="col">Type</th>
                     <th scope="col">Required</th>
@@ -92,7 +91,7 @@
     </div>
 </div>
 
-<div class="card mt-3">
+<div class="card mt-3 AC">
     <div class="card-header">
         Question Parameters
     </div>
@@ -100,7 +99,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Parameter</th>
+                    <th scope="col">Fields</th>
                     <th scope="col">Description</th>
                     <th scope="col">Type</th>
                     <th scope="col">Required</th>
@@ -130,7 +129,7 @@
     </div>
 </div>
 
-<div class="card mt-3">
+<div class="card mt-3 AC">
     <div class="card-header">
         Time Parameters
     </div>
@@ -138,7 +137,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Parameter</th>
+                    <th scope="col">Fields</th>
                     <th scope="col">Description</th>
                     <th scope="col">Type</th>
                     <th scope="col">Required</th>
