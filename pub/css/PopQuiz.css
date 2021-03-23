@@ -2,8 +2,18 @@ body {
   background-image: url("../../images/ac_valhalla_settlement.jpg");
 }
 @font-face {
-  font-family: "ubisoft_sansbold";
-  src: url("/Users/rouzbehyadollahi/Library/Fonts/ubisoftsans-bold.ttf");
+  font-family: "Ubisoft Sans";
+  src: url("//db.onlinewebfonts.com/t/75914226e45d53c888d99c55e1033690.eot");
+  src: url("//db.onlinewebfonts.com/t/75914226e45d53c888d99c55e1033690.eot?#iefix")
+      format("embedded-opentype"),
+    url("//db.onlinewebfonts.com/t/75914226e45d53c888d99c55e1033690.woff2")
+      format("woff2"),
+    url("//db.onlinewebfonts.com/t/75914226e45d53c888d99c55e1033690.woff")
+      format("woff"),
+    url("//db.onlinewebfonts.com/t/75914226e45d53c888d99c55e1033690.ttf")
+      format("truetype"),
+    url("//db.onlinewebfonts.com/t/75914226e45d53c888d99c55e1033690.svg#Ubisoft Sans")
+      format("svg");
 }
 #nav-container {
   display: flex;
