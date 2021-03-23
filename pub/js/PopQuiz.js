@@ -29,6 +29,7 @@ class Quiz {
         if (this.element === null) {
             throw Error("elemendId is either false or it is not created yet");
         }
+        this.element.style = "width: 100%; height: 500px; background-color: antiquewhite; border-radius: 10px; position: relative; margin-left: auto; margin-right: auto;";
         this.totalTime = this.giveTotalTime(settings.time.minutes, settings.time.seconds);
         this.score = (new Score()).renderScore();
         this.previousButton = (new PreviousButton()).renderPreviousButton();
@@ -44,8 +45,8 @@ class Quiz {
         this.popUp = (new PopUp("Click this button whenever you are ready")).renderPopUp();
     }
     validateInput(settings) {
-        let {elementId, questionsArr, time} = settings;
-        let {seconds, minutes, hours} = time;
+        let { elementId, questionsArr, time } = settings;
+        let { seconds, minutes, hours } = time;
         if (!Array.isArray(questionsArr) || (typeof elementId !== 'string') || !questionsArr.length || typeof seconds === 'string' || typeof minutes === 'string') {
             throw Error('elemendId has to be of type "string", questionsArr has to be a non empty array with quesion objects inside, time has to be a string');
         }
@@ -56,7 +57,7 @@ class Quiz {
     renderTime = () => {
         this.timerBox = document.createElement('div');
         this.timerBox.className = "timer";
-        this.timerBox.innerHTML =this.formatTime();
+        this.timerBox.innerHTML = this.formatTime();
         this.timeInterval = setInterval(this.countDown, 1000);
         return this.timerBox;
     }
@@ -65,14 +66,14 @@ class Quiz {
             this.timerBox.innerHTML = "00:00"
             clearInterval(this.timeInterval);
             this.showFinishedTime();
-        } 
+        }
         else if (this.totalTime > 0) {
             this.totalTime--;
             this.timerBox.innerHTML = this.formatTime();
         }
     }
     formatTime = () => {
-        let minutes = Math.floor((this.totalTime/60) % 60);
+        let minutes = Math.floor((this.totalTime / 60) % 60);
         let seconds = Math.floor((this.totalTime % 60));
         let time = `${minutes}:${seconds}`;
         if (this.totalTime < 10) {
@@ -86,12 +87,12 @@ class Quiz {
         return questionsArr.map(question => (new Question(question, this.score)).renderQuestion());
     }
     showNextQuestion = () => {
-        if (this.questionIndex === this.questionsArr.length-1) {
+        if (this.questionIndex === this.questionsArr.length - 1) {
             console.log('cannot move further');
             return;
         }
         this.questionIndex++;
-        const oldQ =  document.querySelector('#question-box');
+        const oldQ = document.querySelector('#question-box');
         oldQ.parentNode.replaceChild(this.questionsArr[this.questionIndex], oldQ);
     }
     showPreviousQuestion = () => {
@@ -100,7 +101,7 @@ class Quiz {
             return;
         }
         this.questionIndex--;
-        const oldQ =  document.querySelector('#question-box');
+        const oldQ = document.querySelector('#question-box');
         oldQ.parentNode.replaceChild(this.questionsArr[this.questionIndex], oldQ);
     }
     render = () => {
@@ -116,16 +117,16 @@ class Quiz {
         this.header.appendChild(this.renderTime());
         this.header.appendChild(this.score);
         const observer = new MutationObserver(this.showGameOver);
-        observer.observe(this.score, {subtree: true, childList: true});
+        observer.observe(this.score, { subtree: true, childList: true });
         this.questionsPart.appendChild(this.questionsArr[this.questionIndex]);
         this.previousButton.addEventListener('click', this.showPreviousQuestion);
         this.bottomPart.appendChild(this.previousButton);
-        this.nextButton.addEventListener('click', this.showNextQuestion);    
+        this.nextButton.addEventListener('click', this.showNextQuestion);
         this.bottomPart.appendChild(this.nextButton);
         this.element.appendChild(this.header);
         this.element.appendChild(this.questionsPart);
         this.element.appendChild(this.bottomPart);
-        
+
     }
     showGameOver = () => {
         if (this.score.innerHTML < 0) {
@@ -135,7 +136,7 @@ class Quiz {
         }
     }
     showFinishedTime = () => {
-        this.popUp = (new PopUp('Time is up! your score is ' + this.score.innerHTML + '/' + this.questionsArr.length*5)).renderPopUp();
+        this.popUp = (new PopUp('Time is up! your score is ' + this.score.innerHTML + '/' + this.questionsArr.length * 5)).renderPopUp();
         this.element.insertBefore(this.popUp, this.element.firstChild);
         clearInterval(this.timeInterval);
     }
@@ -147,12 +148,12 @@ class Question {
         this.options = question.options;
         this.answer = question.answer;
         this.isAnswered = false;
-        this.score =  score;
+        this.score = score;
     }
     validateInput(question) {
-        let {title, options, answer} = question;
-        if (typeof title !== 'string' || typeof answer !== 'string' || !Array.isArray(options) 
-        || options.length > 4) {
+        let { title, options, answer } = question;
+        if (typeof title !== 'string' || typeof answer !== 'string' || !Array.isArray(options)
+            || options.length > 4) {
             throw Error('Invalid input for the quesion object');
         }
         const optionsNotString = options.filter((op) => typeof op !== 'string');
@@ -180,7 +181,7 @@ class Question {
             this.isAnswered = true;
         }
     }
-        
+
     renderQuestion = () => {
         const quesitonBox = document.createElement('div');
         quesitonBox.id = 'question-box';
