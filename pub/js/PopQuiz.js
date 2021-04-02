@@ -21,6 +21,9 @@ time: '1:26'
 }
 */
 
+/*************************************** Quiz of the Quiz *************************************** */
+
+/*********************************************************************************************************** */ 
 
 class Quiz {
     constructor(settings) {
@@ -37,13 +40,16 @@ class Quiz {
         this.startButton = (new StartButton()).renderStartButton();
         this.timerBox = null;
         this.timeInterval = null;
+        this.state = { totalTime: this.totalTime, lastSubmitTime: this.totalTime, score: this.score };
         this.questionsArr = this.populateQuestions(settings.questionsArr);
         this.questionIndex = 0;
         this.header = document.createElement('div');
         this.questionsPart = document.createElement('div');
         this.bottomPart = document.createElement('div');
         this.popUp = (new PopUp("Click this button whenever you are ready")).renderPopUp();
+        this.progress = new ProgressBar();
     }
+    
     validateInput(settings) {
         let { elementId, questionsArr, time } = settings;
         let { seconds, minutes, hours } = time;
@@ -51,9 +57,15 @@ class Quiz {
             throw Error('elemendId has to be of type "string", questionsArr has to be a non empty array with quesion objects inside, time has to be a string');
         }
     }
+
+    populateQuestions = (questionsArr) => {
+        return questionsArr.map(question => (new Question(question, this.score, this.state)).renderQuestion());
+    }
+
     giveTotalTime = (minutes, seconds) => {
         return ((minutes * 60) + seconds);
     }
+
     renderTime = () => {
         this.timerBox = document.createElement('div');
         this.timerBox.className = "timer";
@@ -61,31 +73,37 @@ class Quiz {
         this.timeInterval = setInterval(this.countDown, 1000);
         return this.timerBox;
     }
-    countDown = () => {
-        if (this.totalTime === 0) {
-            this.timerBox.innerHTML = "00:00"
-            clearInterval(this.timeInterval);
-            this.showFinishedTime();
-        }
-        else if (this.totalTime > 0) {
-            this.totalTime--;
-            this.timerBox.innerHTML = this.formatTime();
-        }
-    }
+
     formatTime = () => {
-        let minutes = Math.floor((this.totalTime / 60) % 60);
-        let seconds = Math.floor((this.totalTime % 60));
+        let minutes = Math.floor((this.state.totalTime / 60) % 60);
+        let seconds = Math.floor((this.state.totalTime % 60));
         let time = `${minutes}:${seconds}`;
-        if (this.totalTime < 10) {
+        if (this.state.totalTime < 10) {
             time = `0${minutes}:0${seconds}`;
         } else if (minutes < 10) {
             time = `0${minutes}:${seconds}`;
         }
         return time;
     }
-    populateQuestions = (questionsArr) => {
-        return questionsArr.map(question => (new Question(question, this.score)).renderQuestion());
+
+    countDown = () => {
+        if (this.state.totalTime <= 0) {
+            this.timerBox.innerHTML = "00:00"
+            clearInterval(this.timeInterval);
+            this.showFinishedTime();
+        }
+        else {
+            this.state.totalTime--;
+            this.timerBox.innerHTML = this.formatTime();
+        }
     }
+
+    showFinishedTime = () => {
+        this.popUp = (new PopUp('Time is up! your score is ' + this.score.innerHTML + '/' + this.questionsArr.length * 5)).renderPopUp();
+        this.element.insertBefore(this.popUp, this.element.firstChild);
+        clearInterval(this.timeInterval);
+    }
+
     showNextQuestion = () => {
         if (this.questionIndex === this.questionsArr.length - 1) {
             console.log('cannot move further');
@@ -95,6 +113,7 @@ class Quiz {
         const oldQ = document.querySelector('#question-box');
         oldQ.parentNode.replaceChild(this.questionsArr[this.questionIndex], oldQ);
     }
+
     showPreviousQuestion = () => {
         if (this.questionIndex === 0) {
             console.log('cannot move further');
@@ -104,11 +123,13 @@ class Quiz {
         const oldQ = document.querySelector('#question-box');
         oldQ.parentNode.replaceChild(this.questionsArr[this.questionIndex], oldQ);
     }
+
     render = () => {
         this.startButton.addEventListener('click', this.renderTheQuiz);
         this.popUp.append(this.startButton);
         this.element.appendChild(this.popUp);
     }
+
     renderTheQuiz = (e) => {
         this.element.removeChild(this.popUp);
         this.header.id = "quiz-header";
@@ -128,6 +149,7 @@ class Quiz {
         this.element.appendChild(this.bottomPart);
 
     }
+
     showGameOver = () => {
         if (this.score.innerHTML < 0) {
             this.popUp = (new PopUp("Game Over, your score is less than zero!")).renderPopUp();
@@ -135,21 +157,24 @@ class Quiz {
             clearInterval(this.timeInterval);
         }
     }
-    showFinishedTime = () => {
-        this.popUp = (new PopUp('Time is up! your score is ' + this.score.innerHTML + '/' + this.questionsArr.length * 5)).renderPopUp();
-        this.element.insertBefore(this.popUp, this.element.firstChild);
-        clearInterval(this.timeInterval);
-    }
+
 }
+
+/*************************************** Question of the Quiz *************************************** */
+
+/*********************************************************************************************************** */ 
+
 class Question {
-    constructor(question, score) {
+    constructor(question, score, props) {
         this.validateInput(question);
         this.title = question.title;
         this.options = question.options;
         this.answer = question.answer;
         this.isAnswered = false;
         this.score = score;
+        this.props = props;
     }
+
     validateInput(question) {
         let { title, options, answer } = question;
         if (typeof title !== 'string' || typeof answer !== 'string' || !Array.isArray(options)
@@ -165,14 +190,28 @@ class Question {
             throw Error("Answer not in options or more than one option is the answer");
         }
     }
+
     handleQuestionChosen = (e) => {
         const target = e.target;
         const timerBox = document.querySelector('.timer');
         if (this.isAnswered === false && target.className == 'options' && this.score.innerHTML > -1 && timerBox.innerHTML !== '00:00') {
             if (target.innerHTML === this.answer) {
                 target.style.backgroundColor = 'green';
+                const totalTime = this.props.totalTime;
+                const lastSubmitTime = this.props.lastSubmitTime;
+                const timeDiff = Math.abs(totalTime - lastSubmitTime);
                 const currentScore = parseInt(this.score.innerHTML);
-                this.score.innerHTML = currentScore + 5;
+                console.log("Total time is: "+ totalTime, "Last time submitted is: " + lastSubmitTime, "Time diff is: " + timeDiff);
+                if (timeDiff <= 0.1*totalTime) {
+                    this.score.innerHTML = currentScore + 10;
+                    this.props.lastSubmitTime = this.props.totalTime;
+                } else if (timeDiff <= 0.2*totalTime) {
+                    this.score.innerHTML = currentScore + 7;
+                    this.props.lastSubmitTime = this.props.totalTime;
+                } else {
+                    this.score.innerHTML = currentScore + 5;
+                    this.props.lastSubmitTime = this.props.totalTime;
+                }
             } else {
                 target.style.backgroundColor = 'red';
                 const currentScore = parseInt(this.score.innerHTML);
@@ -200,6 +239,9 @@ class Question {
     }
 }
 
+/*************************************** Title of the question *************************************** */
+
+/*********************************************************************************************************** */
 
 class Title {
     constructor(title) {
@@ -219,6 +261,10 @@ class Title {
         return titleBox;
     }
 }
+/*************************************** Option of the questions *************************************** */
+
+/*********************************************************************************************************** */ 
+
 class Option {
     constructor(op) {
         this.op = op;
@@ -230,6 +276,11 @@ class Option {
         return listItem;
     }
 }
+
+/*************************************** NextButton of the Quiz *************************************** */
+
+/*********************************************************************************************************** */ 
+
 class NextButton {
     renderNextButton = () => {
         const nextButton = document.createElement('button')
@@ -238,6 +289,11 @@ class NextButton {
         return nextButton
     }
 }
+
+/*************************************** Previous of the Quiz *************************************** */
+
+/*********************************************************************************************************** */ 
+
 class PreviousButton {
     renderPreviousButton = () => {
         const previousButton = document.createElement('button')
@@ -246,6 +302,11 @@ class PreviousButton {
         return previousButton
     }
 }
+
+/*************************************** StartButton of the Quiz *************************************** */
+
+/*********************************************************************************************************** */ 
+
 class StartButton {
     renderStartButton = () => {
         const startButton = document.createElement('button')
@@ -254,6 +315,11 @@ class StartButton {
         return startButton;
     }
 }
+
+/*************************************** Time of the Quiz *************************************** */
+
+/*********************************************************************************************************** */ 
+
 class Timer {
     constructor(time) {
         this.validateInput(time);
@@ -281,6 +347,11 @@ class Timer {
     }
 
 }
+
+/*************************************** Score of the Quiz *************************************** */
+
+/*********************************************************************************************************** */ 
+
 class Score {
     renderScore = () => {
         const scoreBox = document.createElement('div');
@@ -289,6 +360,11 @@ class Score {
         return scoreBox;
     }
 }
+
+/*************************************** PopUp of the Quiz *************************************** */
+
+/*********************************************************************************************************** */ 
+
 class PopUp {
     constructor(message) {
         this.message = message;
@@ -304,16 +380,18 @@ class PopUp {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
+class ProgressBar {
+    constructor() {
+        this.progress = document.createElement('div');
+        this.progressDone = document.createElement('div');
+    }
+    renderProgressbar = () => {
+        this.progress.className = 'pop-quiz-progress';
+        this.progressDone.className = 'pop-quiz-progress-done'
+        this.progress.appendChild(this.progressDone);
+        return this.progress;
+    }
+}
 
 
 const makeAQuiz = (json) => {
