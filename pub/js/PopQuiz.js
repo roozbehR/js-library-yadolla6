@@ -47,7 +47,13 @@ class Quiz {
         this.questionsPart = document.createElement('div');
         this.bottomPart = document.createElement('div');
         this.popUp = (new PopUp("Click this button whenever you are ready")).renderPopUp();
-        this.progress = new ProgressBar();
+        this.progress = document.createElement('div');
+        this.progressDone = document.createElement('div');
+        this.progress.className = 'pop-quiz-progress';
+        this.progressDone.className = 'pop-quiz-progress-done'
+        this.progressDone.style.width = "3%";
+        this.progress.appendChild(this.progressDone);
+        this.loadingTimeInterval = null;
     }
     
     validateInput(settings) {
@@ -125,9 +131,11 @@ class Quiz {
     }
 
     render = () => {
-        this.startButton.addEventListener('click', this.renderTheQuiz);
-        this.popUp.append(this.startButton);
-        this.element.appendChild(this.popUp);
+        // this.startButton.addEventListener('click', this.renderTheQuiz);
+        // this.popUp.append(this.startButton);
+        // this.element.appendChild(this.popUp);
+        this.element.appendChild(this.progress);
+
     }
 
     renderTheQuiz = (e) => {
@@ -377,19 +385,6 @@ class PopUp {
         welcomeText.appendChild(document.createTextNode(this.message));
         popUp.appendChild(welcomeText);
         return popUp;
-    }
-}
-
-class ProgressBar {
-    constructor() {
-        this.progress = document.createElement('div');
-        this.progressDone = document.createElement('div');
-    }
-    renderProgressbar = () => {
-        this.progress.className = 'pop-quiz-progress';
-        this.progressDone.className = 'pop-quiz-progress-done'
-        this.progress.appendChild(this.progressDone);
-        return this.progress;
     }
 }
 

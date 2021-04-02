@@ -191,3 +191,34 @@ button:hover {
 }
 
 /************************************* progress bar css here *****************************/
+
+.pop-quiz-progress {
+  width: 90%;
+  background-color: red;
+  border-radius: 10px;
+  height: 3%;
+}
+.pop-quiz-progress-done {
+  animation: load 5s normal forwards;
+  background-color: green;
+  border-radius: 10px;
+  height: 100%;
+}
+@keyframes load {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+/* animation: crescendo 1.5s alternate infinite ease-in;
+@keyframes crescendo {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.09);
+  }
+} */
