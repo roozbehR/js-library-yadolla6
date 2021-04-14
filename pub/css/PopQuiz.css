@@ -17,9 +17,9 @@ button,
 li {
   flex-direction: column;
   font-family: "ubisoft_sansbold", serif;
-  font-size: 25px;
+  font-size: large;
   cursor: default;
-  transition: all 1s ease-out;
+  transition: all 0.3s ease-out;
 }
 button {
   background-color: white;
@@ -27,6 +27,15 @@ button {
   border-radius: 20px;
   padding: 10px 10px;
   outline: none;
+}
+button:focus {
+  outline: 0;
+}
+.submit-quiz-button {
+  margin-right: 5%;
+}
+.submit-quiz-button:hover {
+  transform: scale(1.07);
 }
 li {
   display: inline-block;
@@ -61,29 +70,28 @@ button:hover {
   border-radius: 10px;
 }
 #quiz-header {
-  width: 95%;
-  height: 50px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 2%;
+  background-color: #05386b;
+  border-radius: 10px 10px 0 0;
+  width: 100%;
+  height: 15%;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 60%;
 }
 #quiz-question-part {
-  width: 95%;
-  height: 300px;
+  background-color: white;
+  width: 100%;
+  height: 60%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 2%;
+  margin-top: 0px;
 }
 #quiz-bottom-part {
-  width: 90%;
-  height: 100px;
+  background-color: aquamarine;
+  width: 100%;
+  height: 20%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 2%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -118,14 +126,11 @@ button:hover {
 }
 .timer,
 .score-box {
-  background-color: red;
-  color: white;
+  margin-top: 3%;
   font-size: x-large;
-  border-radius: 10px;
-  border: solid 2px;
-  height: 40px;
-  width: 200px;
-  text-align: center;
+  border: solid white 2px;
+  border-radius: 20px;
+  border-color: gold;
 }
 #list-of-options {
   list-style-type: none;
@@ -204,6 +209,8 @@ button:hover {
   border-radius: 10px;
   height: 100%;
 }
+
+/* animation: crescendo 0.3s alternate infinite ease-in; */
 @keyframes load {
   0% {
     width: 0;
@@ -213,12 +220,11 @@ button:hover {
   }
 }
 
-/* animation: crescendo 1.5s alternate infinite ease-in;
 @keyframes crescendo {
   0% {
-    transform: scale(1);
+    transform: scale(0.8);
   }
   100% {
-    transform: scale(1.09);
+    transform: scale(1.2);
   }
-} */
+}
