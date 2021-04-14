@@ -32,7 +32,7 @@ class Quiz {
         if (this.element === null) {
             throw Error("elemendId is either false or it is not created yet");
         }
-        this.element.style = "width: 500px; height: 400px; background-color: antiquewhite; border-radius: 10px; position: relative; margin-left: auto; margin-right: auto; display: flex, flex-wrap: wrap";
+        this.element.style = "width: 100%; height: 500px; background-color: #5CDB95; border-radius: 10px; position: relative; margin-left: auto; margin-right: auto; display: flex, flex-wrap: wrap";
         this.totalTime = this.giveTotalTime(settings.time.minutes, settings.time.seconds);
         this.score = (new Score()).renderScore();
         this.previousButton = (new PreviousButton()).renderPreviousButton();
@@ -173,6 +173,7 @@ class Quiz {
         this.header.appendChild(headUL);
         // this.header.appendChild(this.renderTime());
         // this.header.appendChild(this.score);
+        this.submitButton.addEventListener('click', this.submitQuiz);
         this.header.appendChild(this.submitButton);
         const observer = new MutationObserver(this.showGameOver);
         observer.observe(this.score, { subtree: true, childList: true });
@@ -193,6 +194,11 @@ class Quiz {
             this.element.insertBefore(this.popUp, this.element.firstChild);
             clearInterval(this.timeInterval);
         }
+    }
+    submitQuiz = () => {
+        this.popUp = (new PopUp("Your quiz is submitted, your score is " + this.score.innerHTML)).renderPopUp();
+        this.element.insertBefore(this.popUp, this.element.firstChild);
+        clearInterval(this.timeInterval);
     }
 
 }
@@ -439,5 +445,5 @@ const makeAQuiz = (json) => {
 
 /*
 Things left are:
-give blinking timer, modify the scoring system a bit more, let the user set a score, put a submit button, add a nice overlay, add intuiton button
+modify the scoring system a bit more, let the user set a score, put a submit button, add a nice overlay, add intuiton button
 */
