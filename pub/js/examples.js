@@ -89,11 +89,12 @@ const quiz1 = new Quiz({
     }],
     time: {
         minutes: 0,
-        seconds: 10
+        seconds: 20
     }
 });
 quiz1.addStartQuiz();
 quiz1.addLoader();
+quiz1.addSubmitButton();
 quiz1.render();
 
 
