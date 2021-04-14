@@ -1,3 +1,4 @@
+"use strict";
 //The quiz object goes here
 
 
@@ -21,60 +22,58 @@ time: '1:26'
 }
 */
 
-/*************************************** Quiz of the Quiz *************************************** */
+
+(function(global, document) {
+    /*************************************** Quiz of the Quiz *************************************** */
 
 /*********************************************************************************************************** */ 
 
 class Quiz {
     constructor(settings) {
-        this.validateInput(settings)
+        this.#validateInput(settings)
         this.element = document.querySelector(settings.elementId);
         if (this.element === null) {
             throw Error("elemendId is either false or it is not created yet");
         }
         this.element.style = "width: 100%; height: 500px; background-color: #5CDB95; border-radius: 10px; position: relative; margin-left: auto; margin-right: auto; display: flex, flex-wrap: wrap";
-        this.totalTime = this.giveTotalTime(settings.time.minutes, settings.time.seconds);
+        this.totalTime = this.#giveTotalTime(settings.time.minutes, settings.time.seconds);
         this.score = (new Score()).renderScore();
         this.previousButton = (new PreviousButton()).renderPreviousButton();
         this.nextButton = (new NextButton()).renderNextButton();
-        this.startButton = (new StartButton()).renderStartButton();
-        this.submitButton = (new SubmitButton()).renderSubmitButton();
+        this.startButton = null;
+        this.submitButton = null;
         this.timerBox = null;
         this.timeInterval = null;
-        this.state = { totalTime: this.totalTime, lastSubmitTime: this.totalTime, score: this.score };
-        this.questionsArr = this.populateQuestions(settings.questionsArr);
+        this.state = { totalTime: this.totalTime, lastSubmitTime: this.totalTime, score: this.score, timerBox: this.timerBox };
+        this.questionsArr = this.#populateQuestions(settings.questionsArr);
         this.questionIndex = 0;
         this.header = document.createElement('div');
         this.questionsPart = document.createElement('div');
         this.bottomPart = document.createElement('div');
-        this.popUp = (new PopUp("Click this button whenever you are ready")).renderPopUp();
-        this.progress = document.createElement('div');
-        this.progressDone = document.createElement('div');
-        this.progress.className = 'pop-quiz-progress';
-        this.progressDone.className = 'pop-quiz-progress-done'
-        this.progressDone.style.width = "3%";
-        this.progress.appendChild(this.progressDone);
-        this.loadingTimeInterval = null;
+        this.popUp = null;
+        this.loader = null;
     }
 
-    renderSpinner = () => {
+    #renderSpinner = () => {
         const spinnerBox = document.createElement('div');
-        spinnerBox.className = "spinner-box";
-        const configureBorder1 = document.createElement('div');
-        configureBorder1.className = "configure-border-1";
-        const configureCore = document.createElement('div');
-        configureCore.className = "configure-core";
-        const configureBorder2 = document.createElement('div');
-        configureBorder2.className = "configure-border-2";
-        configureBorder1.appendChild(configureCore);
-        configureBorder2.appendChild(configureCore);
-        spinnerBox.appendChild(configureBorder1);
-        spinnerBox.appendChild(configureBorder2);
+        spinnerBox.className = "wrapper";
+        const loader = document.createElement('div');
+        loader.className = "loader";
+        const vBar1 = document.createElement('div');
+        vBar1.className = "v-bar first";
+        const vBar2 = document.createElement('div');
+        vBar2.className = "v-bar second";
+        const vBar3 = document.createElement('div');
+        vBar3.className = "v-bar third";
+        loader.appendChild(vBar1);
+        loader.appendChild(vBar2);
+        loader.appendChild(vBar3);
+        spinnerBox.appendChild(loader);
         return spinnerBox;
-    }
+    } 
 
     
-    validateInput(settings) {
+    #validateInput(settings) {
         let { elementId, questionsArr, time } = settings;
         let { seconds, minutes, hours } = time;
         if (!Array.isArray(questionsArr) || (typeof elementId !== 'string') || !questionsArr.length || typeof seconds === 'string' || typeof minutes === 'string') {
@@ -82,23 +81,22 @@ class Quiz {
         }
     }
 
-    populateQuestions = (questionsArr) => {
+    #populateQuestions = (questionsArr) => {
         return questionsArr.map(question => (new Question(question, this.score, this.state)).renderQuestion());
     }
 
-    giveTotalTime = (minutes, seconds) => {
+    #giveTotalTime = (minutes, seconds) => {
         return ((minutes * 60) + seconds);
     }
-
-    renderTime = () => {
+    #renderTime = () => {
         this.timerBox = document.createElement('li');
         this.timerBox.className = "timer";
-        this.timerBox.innerHTML = this.formatTime();
-        this.timeInterval = setInterval(this.countDown, 1000);
+        this.timerBox.innerHTML = this.#formatTime();
+        this.timeInterval = setInterval(this.#countDown, 1000);
         return this.timerBox;
     }
 
-    formatTime = () => {
+    #formatTime = () => {
         let minutes = Math.floor((this.state.totalTime / 60) % 60);
         let seconds = Math.floor((this.state.totalTime % 60));
         let time = `${minutes}:${seconds}`;
@@ -110,11 +108,11 @@ class Quiz {
         return time;
     }
 
-    countDown = () => {
+    #countDown = () => {
         if (this.state.totalTime <= 0) {
             this.timerBox.innerHTML = "00:00"
             clearInterval(this.timeInterval);
-            this.showFinishedTime();
+            this.#showFinishedTime();
         }
         else {
             if (this.state.totalTime <= 10) {
@@ -123,17 +121,20 @@ class Quiz {
 
             }
             this.state.totalTime--;
-            this.timerBox.innerHTML = this.formatTime();
+            this.timerBox.innerHTML = this.#formatTime();
         }
     }
-
-    showFinishedTime = () => {
+    #delay = ms => new Promise(res => setTimeout(res, ms));
+    #removeLoader = () => {
+        this.element.removeChild(this.loader);
+    }
+    #showFinishedTime = () => {
         this.popUp = (new PopUp('Time is up! your score is ' + this.score.innerHTML + '/' + this.questionsArr.length * 5)).renderPopUp();
         this.element.insertBefore(this.popUp, this.element.firstChild);
         clearInterval(this.timeInterval);
     }
 
-    showNextQuestion = () => {
+    #showNextQuestion = () => {
         if (this.questionIndex === this.questionsArr.length - 1) {
             console.log('cannot move further');
             return;
@@ -143,7 +144,7 @@ class Quiz {
         oldQ.parentNode.replaceChild(this.questionsArr[this.questionIndex], oldQ);
     }
 
-    showPreviousQuestion = () => {
+    #showPreviousQuestion = () => {
         if (this.questionIndex === 0) {
             console.log('cannot move further');
             return;
@@ -154,53 +155,79 @@ class Quiz {
     }
 
     render = () => {
-        this.startButton.addEventListener('click', this.renderTheQuiz);
-        this.popUp.append(this.startButton);
-        this.element.appendChild(this.popUp);
+        if (this.popUp !== null) {
+            this.element.appendChild(this.popUp);
+        }
+        else {
+            this.#renderTheQuiz();
+        }
         // this.element.appendChild(this.progress);
 
     }
 
-    renderTheQuiz = (e) => {
-        this.element.removeChild(this.popUp);
+    #renderTheQuiz = async (e) => {
+        if (this.popUp !== null) {
+            this.element.removeChild(this.popUp);
+        }
+        if (this.loader !== null) {
+            this.element.appendChild(this.loader);
+            await this.#delay(3000);
+            this.#removeLoader();
+        }
         this.header.id = "quiz-header";
         this.questionsPart.id = "quiz-question-part";
         this.bottomPart.id = "quiz-bottom-part";
         const headUL = document.createElement('ul');
-        this.timerBox = this.renderTime();
+        this.timerBox = this.#renderTime();
         headUL.appendChild(this.timerBox);
         headUL.appendChild(this.score);
         this.header.appendChild(headUL);
-        // this.header.appendChild(this.renderTime());
+        // this.header.appendChild(this.#renderTime());
         // this.header.appendChild(this.score);
-        this.submitButton.addEventListener('click', this.submitQuiz);
-        this.header.appendChild(this.submitButton);
-        const observer = new MutationObserver(this.showGameOver);
+        if (this.submitButton !== null) {
+            this.submitButton.addEventListener('click', this.#submitQuiz);
+            this.header.appendChild(this.submitButton);
+        }
+        const observer = new MutationObserver(this.#showGameOver);
         observer.observe(this.score, { subtree: true, childList: true });
         this.questionsPart.appendChild(this.questionsArr[this.questionIndex]);
-        this.previousButton.addEventListener('click', this.showPreviousQuestion);
+        this.previousButton.addEventListener('click', this.#showPreviousQuestion);
         this.bottomPart.appendChild(this.previousButton);
-        this.nextButton.addEventListener('click', this.showNextQuestion);
+        this.nextButton.addEventListener('click', this.#showNextQuestion);
         this.bottomPart.appendChild(this.nextButton);
         this.element.appendChild(this.header);
         this.element.appendChild(this.questionsPart);
         this.element.appendChild(this.bottomPart);
-
     }
 
-    showGameOver = () => {
+    #showGameOver = () => {
         if (this.score.innerHTML < 0) {
             this.popUp = (new PopUp("Game Over, your score is less than zero!")).renderPopUp();
             this.element.insertBefore(this.popUp, this.element.firstChild);
             clearInterval(this.timeInterval);
         }
     }
-    submitQuiz = () => {
+    #submitQuiz = () => {
         this.popUp = (new PopUp("Your quiz is submitted, your score is " + this.score.innerHTML)).renderPopUp();
         this.element.insertBefore(this.popUp, this.element.firstChild);
         clearInterval(this.timeInterval);
     }
 
+    /********************************************API to use in the quiz******************************************************************** */
+    
+    addStartQuiz = () => {
+        this.startButton = (new StartButton()).renderStartButton();
+        this.startButton.addEventListener('click', this.#renderTheQuiz);
+        this.popUp = (new PopUp("Click this button whenever you are ready")).renderPopUp();
+        this.popUp.append(this.startButton);
+
+    }
+    addSubmitButton = () => {
+        this.submitButton = (new SubmitButton()).renderSubmitButton();
+    }
+    addLoader = () => {
+        this.loader = this.#renderSpinner();
+    }
 }
 
 /*************************************** Question of the Quiz *************************************** */
@@ -373,37 +400,7 @@ class SubmitButton {
     }
 }
 
-/*************************************** Time of the Quiz *************************************** */
 
-/*********************************************************************************************************** */ 
-
-class Timer {
-    constructor(time) {
-        this.validateInput(time);
-        this.time = time;
-    }
-    validateInput(time) {
-        if (typeof time !== 'number' || time < 1) {
-            throw Error('time has a positive number');
-        }
-    }
-    rednerTimer = () => {
-        const timerBox = document.createElement('div');
-        timerBox.className = "timer";
-        setInterval(this.countDown, 1000)
-        return timerBox;
-    }
-    startCountDown = () => {
-        const timerBox = document.querySelector('.timer');
-        timerBox.textContent = `${0}:${this.time}`;
-        this.time--;
-        if (this.time < 0) {
-            timerBox.innerHTML = "Running out of time";
-            clearInterval(quizTime);
-        }
-    }
-
-}
 
 /*************************************** Score of the Quiz *************************************** */
 
@@ -437,13 +434,13 @@ class PopUp {
     }
 }
 
+global.Quiz = global.Quiz || Quiz;
+}) (window, window.document);
 
-const makeAQuiz = (json) => {
-    const q = new Quiz(json)
-    q.render();
-}
+
+
 
 /*
-Things left are:
-modify the scoring system a bit more, let the user set a score, put a submit button, add a nice overlay, add intuiton button
+If i get time:
+modify the scoring system a bit more, let the user set a score, add a nice overlay, add intuiton button
 */
