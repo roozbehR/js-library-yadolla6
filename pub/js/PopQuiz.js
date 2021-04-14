@@ -35,7 +35,7 @@ class Quiz {
         if (this.element === null) {
             throw Error("elemendId is either false or it is not created yet");
         }
-        this.element.style = "width: 100%; height: 500px; background-color: #5CDB95; border-radius: 10px; position: relative; margin-left: auto; margin-right: auto; display: flex, flex-wrap: wrap";
+        this.element.style = "width: 600px; height: 500px; background-color: #5CDB95; border-radius: 10px; position: relative; margin-left: auto; margin-right: auto; display: flex, flex-wrap: wrap";
         this.totalTime = this.#giveTotalTime(settings.time.minutes, settings.time.seconds);
         this.score = (new Score()).renderScore();
         this.previousButton = (new PreviousButton()).renderPreviousButton();
@@ -108,7 +108,7 @@ class Quiz {
         return time;
     }
 
-    #countDown = () => {
+    #countDown = async () => {
         if (this.state.totalTime <= 0) {
             this.timerBox.innerHTML = "00:00"
             clearInterval(this.timeInterval);
