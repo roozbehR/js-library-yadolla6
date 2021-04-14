@@ -32,12 +32,13 @@ class Quiz {
         if (this.element === null) {
             throw Error("elemendId is either false or it is not created yet");
         }
-        this.element.style = "width: 100%; height: 500px; background-color: antiquewhite; border-radius: 10px; position: relative; margin-left: auto; margin-right: auto;";
+        this.element.style = "width: 500px; height: 400px; background-color: antiquewhite; border-radius: 10px; position: relative; margin-left: auto; margin-right: auto; display: flex, flex-wrap: wrap";
         this.totalTime = this.giveTotalTime(settings.time.minutes, settings.time.seconds);
         this.score = (new Score()).renderScore();
         this.previousButton = (new PreviousButton()).renderPreviousButton();
         this.nextButton = (new NextButton()).renderNextButton();
         this.startButton = (new StartButton()).renderStartButton();
+        this.submitButton = (new SubmitButton()).renderSubmitButton();
         this.timerBox = null;
         this.timeInterval = null;
         this.state = { totalTime: this.totalTime, lastSubmitTime: this.totalTime, score: this.score };
@@ -55,6 +56,23 @@ class Quiz {
         this.progress.appendChild(this.progressDone);
         this.loadingTimeInterval = null;
     }
+
+    renderSpinner = () => {
+        const spinnerBox = document.createElement('div');
+        spinnerBox.className = "spinner-box";
+        const configureBorder1 = document.createElement('div');
+        configureBorder1.className = "configure-border-1";
+        const configureCore = document.createElement('div');
+        configureCore.className = "configure-core";
+        const configureBorder2 = document.createElement('div');
+        configureBorder2.className = "configure-border-2";
+        configureBorder1.appendChild(configureCore);
+        configureBorder2.appendChild(configureCore);
+        spinnerBox.appendChild(configureBorder1);
+        spinnerBox.appendChild(configureBorder2);
+        return spinnerBox;
+    }
+
     
     validateInput(settings) {
         let { elementId, questionsArr, time } = settings;
@@ -73,7 +91,7 @@ class Quiz {
     }
 
     renderTime = () => {
-        this.timerBox = document.createElement('div');
+        this.timerBox = document.createElement('li');
         this.timerBox.className = "timer";
         this.timerBox.innerHTML = this.formatTime();
         this.timeInterval = setInterval(this.countDown, 1000);
@@ -99,6 +117,11 @@ class Quiz {
             this.showFinishedTime();
         }
         else {
+            if (this.state.totalTime <= 10) {
+                this.timerBox.style.animation = "crescendo 0.3s alternate infinite ease-in";
+                this.timerBox.style.borderColor = "red";
+
+            }
             this.state.totalTime--;
             this.timerBox.innerHTML = this.formatTime();
         }
@@ -131,10 +154,10 @@ class Quiz {
     }
 
     render = () => {
-        // this.startButton.addEventListener('click', this.renderTheQuiz);
-        // this.popUp.append(this.startButton);
-        // this.element.appendChild(this.popUp);
-        this.element.appendChild(this.progress);
+        this.startButton.addEventListener('click', this.renderTheQuiz);
+        this.popUp.append(this.startButton);
+        this.element.appendChild(this.popUp);
+        // this.element.appendChild(this.progress);
 
     }
 
@@ -143,8 +166,14 @@ class Quiz {
         this.header.id = "quiz-header";
         this.questionsPart.id = "quiz-question-part";
         this.bottomPart.id = "quiz-bottom-part";
-        this.header.appendChild(this.renderTime());
-        this.header.appendChild(this.score);
+        const headUL = document.createElement('ul');
+        this.timerBox = this.renderTime();
+        headUL.appendChild(this.timerBox);
+        headUL.appendChild(this.score);
+        this.header.appendChild(headUL);
+        // this.header.appendChild(this.renderTime());
+        // this.header.appendChild(this.score);
+        this.header.appendChild(this.submitButton);
         const observer = new MutationObserver(this.showGameOver);
         observer.observe(this.score, { subtree: true, childList: true });
         this.questionsPart.appendChild(this.questionsArr[this.questionIndex]);
@@ -324,6 +353,20 @@ class StartButton {
     }
 }
 
+
+/*************************************** Submit of the Quiz *************************************** */
+
+/*********************************************************************************************************** */ 
+
+class SubmitButton {
+    renderSubmitButton = () => {
+        const submitButton = document.createElement('button');
+        submitButton.className ='submit-quiz-button';
+        submitButton.innerHTML = 'Submit';
+        return submitButton;
+    }
+}
+
 /*************************************** Time of the Quiz *************************************** */
 
 /*********************************************************************************************************** */ 
@@ -362,7 +405,7 @@ class Timer {
 
 class Score {
     renderScore = () => {
-        const scoreBox = document.createElement('div');
+        const scoreBox = document.createElement('li');
         scoreBox.className = 'score-box';
         scoreBox.appendChild(document.createTextNode(0))
         return scoreBox;
@@ -394,3 +437,7 @@ const makeAQuiz = (json) => {
     q.render();
 }
 
+/*
+Things left are:
+give blinking timer, modify the scoring system a bit more, let the user set a score, put a submit button, add a nice overlay, add intuiton button
+*/
