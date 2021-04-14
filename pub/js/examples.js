@@ -63,6 +63,40 @@
 //     }
 // });
 
+const quiz1 = new Quiz({
+    elementId: '#myQuiz2',
+    questionsArr: [{
+        title: 'What is first letter of Hi?',
+        options: ['K',
+            'J',
+            'H',
+            'M'],
+        answer: 'H'
+    },
+    {
+        title: 'What year is it ?',
+        options: ['2020',
+            '2021',
+            "1998",
+            "1920"],
+        answer: '2021'
+    },
+    {
+        title: 'True or False ? PopQuiz is Fun',
+        options: ['True',
+            'False'],
+        answer: 'True'
+    }],
+    time: {
+        minutes: 0,
+        seconds: 10
+    }
+});
+quiz1.addStartQuiz();
+quiz1.addLoader();
+quiz1.render();
+
+
 makeAQuiz({
     elementId: '#myQuiz',
     questionsArr: [{
@@ -92,33 +126,33 @@ makeAQuiz({
     }
 });
 
-makeAQuiz({
-    elementId: '#myQuiz2',
-    questionsArr: [{
-        title: 'What is first letter of Hi?',
-        options: ['K',
-            'J',
-            'H',
-            'M'],
-        answer: 'H'
-    },
-    {
-        title: 'What year is it ?',
-        options: ['2020',
-            '2021',
-            "1998",
-            "1920"],
-        answer: '2021'
-    },
-    {
-        title: 'True or False ? PopQuiz is Fun',
-        options: ['True',
-            'False'],
-        answer: 'True'
-    }],
-    time: {
-        minutes: 0,
-        seconds: 3
-    }
-});
+// makeAQuiz({
+//     elementId: '#myQuiz2',
+//     questionsArr: [{
+//         title: 'What is first letter of Hi?',
+//         options: ['K',
+//             'J',
+//             'H',
+//             'M'],
+//         answer: 'H'
+//     },
+//     {
+//         title: 'What year is it ?',
+//         options: ['2020',
+//             '2021',
+//             "1998",
+//             "1920"],
+//         answer: '2021'
+//     },
+//     {
+//         title: 'True or False ? PopQuiz is Fun',
+//         options: ['True',
+//             'False'],
+//         answer: 'True'
+//     }],
+//     time: {
+//         minutes: 0,
+//         seconds: 10
+//     }
+// });
 
