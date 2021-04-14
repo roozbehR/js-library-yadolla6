@@ -88,7 +88,7 @@ makeAQuiz({
     }],
     time: {
         minutes: 0,
-        seconds: 7
+        seconds: 15
     }
 });
 
