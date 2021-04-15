@@ -7,12 +7,10 @@ Here is how to get started and use the library.
 
 - [Table of Contents](#table-of-contents)
 - [Heroku Link](#heroku-link)
-- [Setting up PopQuiz](#setting-up-moviebook)
-  - [Run the Front-End](#run-the-front-end)
-  - [Running the Back-End](#running-the-back-end)
-- [User Credentials](#user-credentials)
-- [How To Use The Application](#how-to-use-the-application)
-  - [Logging in](#logging-in)
+- [Getting Started With PopQuiz](#getting-started-with-PopQuiz)
+  - [Setting Up PopQuiz](#run-the-front-end)
+- [How To Use PopQuiz](#how-to-use-the-application)
+  - [Creating a div in the DOM](#logging-in)
   - [Looking at Movies](#looking-at-movies)
     - [Individual Movies](#individual-movies)
       - [Leaving a Review](#leaving-a-review)
@@ -107,6 +105,8 @@ _Example_
 <div id="uniqueQuizId" href="'path/form/your/html/folder/to/css/PopQuiz.css'">
 ```
 
+### Creating a js File That Is Going to Use the Library
+
 Then create a js file that you want to use the library in, lets call it `example.js` as an instance
 
 Once created the js file create a new quiz object in `example.js`
@@ -119,7 +119,11 @@ _Example_
 const quiz1 = new Quiz(json);
 ```
 
+### Use the APIs Provided to Style Your Quiz
+
 Once the quiz object created, you can add the functionalities you like to the quiz using the APIs provided by the quiz
+
+### Render Your Quiz
 
 Only at the **end**, once you finished adding what you want to the quiz, render the quiz using its render API provided
 
@@ -135,11 +139,11 @@ This will render your quiz and show it to you on you webpage
 
 **Once the quiz renders you should not change it**
 
-## List of APIs provided by PopQuiz.js
+## List of APIs Provided by PopQuiz
 
 **You can call these APIs after you instantiated a quiz object**
 
-### Adding a start the quiz page
+### Adding a Start Page to the Quiz
 
 This API allows the user to create and overlay for the quiz which is a page that has a start button. Once the user is ready they can click the start button and do the quiz. Without using this API the quiz starts right after the quiz is rendered in the DOM
 
@@ -151,7 +155,7 @@ quiz1.addStartQuiz();
 
 **This returns an array of users, the sample shown above is not complete.**
 
-### Adding a submit button to the quiz
+### Adding a Submit Button to the Quiz
 
 This api adds a submit button to the quiz, hence gives the ability to the user to submit the quiz whenever they want. As a result user doesn't have to wait until the timer is over and can submit their quiz whenever they want
 
@@ -161,7 +165,7 @@ _Example Call_
 quiz1.addSubmitButton();
 ```
 
-### Adding a loader to the quiz
+### Adding a Loader to the Quiz
 
 This api enables the user to make thier quiz fancy by creating a loader. Uisng this api, once the user starts the quiz, there will be a 3 second loading which appears on the page with a nice animation and then the quiz starts
 
