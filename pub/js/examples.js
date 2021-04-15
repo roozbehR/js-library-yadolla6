@@ -95,6 +95,7 @@ const quiz1 = new Quiz({
 quiz1.addStartQuiz();
 quiz1.addLoader();
 quiz1.addSubmitButton();
+quiz1.addTimeAbility();
 quiz1.render();
 
 
