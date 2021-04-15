@@ -137,7 +137,7 @@ _Example Call_
 
 ```
 
-quiz1.quiz1.addLoader();
+quiz1.addLoader();
 
 ```
 
