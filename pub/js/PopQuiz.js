@@ -52,6 +52,7 @@ class Quiz {
         this.bottomPart = document.createElement('div');
         this.popUp = null;
         this.loader = null;
+        this.intuitionButton = null;
     }
 
     #renderSpinner = () => {
@@ -119,6 +120,10 @@ class Quiz {
                 this.timerBox.style.animation = "crescendo 0.3s alternate infinite ease-in";
                 this.timerBox.style.borderColor = "red";
 
+            }
+            if (this.state.totalTime > 10) {
+                this.timerBox.style.animation = "none";
+                this.timerBox.style.borderColor = "gold";
             }
             this.state.totalTime--;
             this.timerBox.innerHTML = this.#formatTime();
@@ -193,6 +198,9 @@ class Quiz {
         this.questionsPart.appendChild(this.questionsArr[this.questionIndex]);
         this.previousButton.addEventListener('click', this.#showPreviousQuestion);
         this.bottomPart.appendChild(this.previousButton);
+        if (this.intuitionButton !== null) {
+            this.bottomPart.appendChild(this.intuitionButton);
+        }
         this.nextButton.addEventListener('click', this.#showNextQuestion);
         this.bottomPart.appendChild(this.nextButton);
         this.element.appendChild(this.header);
@@ -212,6 +220,13 @@ class Quiz {
         this.element.insertBefore(this.popUp, this.element.firstChild);
         clearInterval(this.timeInterval);
     }
+    #increaseTime = () => {
+        this.state.totalTime = this.state.totalTime + 10;
+        this.timerBox.innerHTML = this.#formatTime();
+        this.intuitionButton.removeEventListener('click', this.#increaseTime);
+        this.intuitionButton.disabled = true;
+
+    }
 
     /********************************************API to use in the quiz******************************************************************** */
     
@@ -227,6 +242,12 @@ class Quiz {
     }
     addLoader = () => {
         this.loader = this.#renderSpinner();
+    }
+    addTimeAbility = () => {
+        this.intuitionButton = document.createElement('input');
+        this.intuitionButton.type = 'checkbox';
+        this.intuitionButton.className = "l";
+        this.intuitionButton.addEventListener('click', this.#increaseTime);
     }
 }
 
