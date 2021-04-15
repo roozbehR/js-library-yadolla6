@@ -10,8 +10,8 @@ Welcome to PopQuiz, a javascript lirbrary to build coginitve games, quizzes, and
   - [Setting Up PopQuiz](#setting-up-popquiz)
 - [How To Use PopQuiz](#how-to-use-popquiz)
 
-  - [Creating a div in the DOM](##creating-a-div-in-the-dom)
-  - [Creating a js File That is Going to Use the Library](##creating-a-js-file-that-is-going-to-use-the-library)
+  - [Creating a div in the DOM](#creating-a-div-in-the-dom)
+  - [Creating a js File That is Going to Use the Library](#creating-a-js-file-that-is-going-to-use-the-library)
   - [Use the APIs Provided to Style Your Quiz](#use-the-apis-provided-to-style-your-quiz)
   - [Render Your Quiz](#render-your-quiz)
 
