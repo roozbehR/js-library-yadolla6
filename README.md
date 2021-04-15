@@ -1,60 +1,24 @@
 # js-library-yadolla6 - PopQuiz
 
 Welcome to PopQuiz, a javascript lirbrary to build coginitve games, quizzes, and online assemssments quickly and easily.
-Here is how to get started and use the library.
 
 ## Table of Contents
 
 - [Table of Contents](#table-of-contents)
 - [Heroku Link](#heroku-link)
 - [Getting Started With PopQuiz](#getting-started-with-PopQuiz)
-  - [Setting Up PopQuiz](#run-the-front-end)
-- [How To Use PopQuiz](#how-to-use-the-application)
-  - [Creating a div in the DOM](#logging-in)
-  - [Looking at Movies](#looking-at-movies)
-    - [Individual Movies](#individual-movies)
-      - [Leaving a Review](#leaving-a-review)
-      - [Leaving a comment](#leaving-a-comment)
-  - [Viewing Profiles](#viewing-profiles)
-  - [Updating Own Profile](#updating-own-profile)
-    - [Updating Biography](#updating-biography)
-    - [Uploading a new Picture](#uploading-a-new-picture)
-  - [Viewing User Feed](#viewing-user-feed)
-  - [Searching for Movies](#searching-for-movies)
-  - [Logging Out](#logging-out)
-  - [Administration Panel **(Admins Only)**](#administration-panel----admins-only---)
-- [Backend Routes & Middleware](#backend-routes---middleware)
-  - [Middleware](#middleware)
-    - [mongoChecker](#mongochecker)
-    - [authenticateAdmin](#authenticateadmin)
-    - [authenticate](#authenticate)
-    - [unauthenticate](#unauthenticate)
-  - [Backend Routes](#backend-routes)
-    - [Logging in and out](#logging-in-and-out)
-      - [Log in](#log-in)
-      - [Log Out](#log-out)
-    - [Registering a user](#registering-a-user)
-    - [Getting user details](#getting-user-details)
-    - [Follow a user](#follow-a-user)
-    - [Get Movie by ID](#get-movie-by-id)
-    - [Get Random Movie](#get-random-movie)
-    - [Get New Movies](#get-new-movies)
-    - [Adding a review](#adding-a-review)
-    - [Add a comment to a review](#add-a-comment-to-a-review)
-    - [Get Comments based on review id](#get-comments-based-on-review-id)
-    - [Get all reviews by a User](#get-all-reviews-by-a-user)
-    - [Get all comments by a User](#get-all-comments-by-a-user)
-    - [Get User's Favourite Movies](#get-user-s-favourite-movies)
-    - [Update User Biography](#update-user-biography)
-    - [Update User Picture](#update-user-picture)
-    - [Get User Feed](#get-user-feed)
-    - [Admin APIs](#admin-apis)
-      - [Getting all Users](#getting-all-users)
-      - [Delete User](#delete-user)
-      - [Update User (Admin Rights)](#update-user--admin-rights-)
-      - [Add Movie](#add-movie)
-    - [Search Functionality](#search-functionality)
-      - [Searching for movies](#searching-for-movies)
+  - [Setting Up PopQuiz](#setting-up-popquiz)
+- [How To Use PopQuiz](#how-to-use-popquiz)
+
+  - [Creating a div in the DOM](##creating-a-div-in-the-dom)
+  - [Creating a js File That is Going to Use the Library](##creating-a-js-file-that-is-going-to-use-the-library)
+  - [Use the APIs Provided to Style Your Quiz](#use-the-apis-provided-to-style-your-quiz)
+  - [Render Your Quiz](#render-your-quiz)
+
+- [List of APIs Provided by PopQuiz](#list-of-apis-provided-by-popquiz)
+  - [Adding a Start Page to the Quiz](#adding-a-start-page-to-the-quiz)
+  - [Adding a Submit Button to the Quiz](#adding-a-submit-button-to-the-quiz)
+  - [Adding a Loader to the Quiz](#adding-a-loader-to-the-quiz)
 - [Libraries & Frameworks Used](#libraries---frameworks-used)
 
 ## Heroku Link
@@ -91,7 +55,7 @@ This will look like following:
 
 Now the setup is ready and you can use PopQuiz.js for your application
 
-## How To Use PopQuiz.js
+## How To Use PopQuiz
 
 ### Creating a div in the DOM
 
