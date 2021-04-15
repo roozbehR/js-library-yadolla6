@@ -19,7 +19,7 @@ Welcome to PopQuiz, a javascript lirbrary to build coginitve games, quizzes, and
   - [Adding a Start Page to the Quiz](#adding-a-start-page-to-the-quiz)
   - [Adding a Submit Button to the Quiz](#adding-a-submit-button-to-the-quiz)
   - [Adding a Loader to the Quiz](#adding-a-loader-to-the-quiz)
-- [Libraries & Frameworks Used](#libraries---frameworks-used)
+- [Libraries & Frameworks Used](#libraries-&-frameworks-used)
 
 ## Heroku Link
 
