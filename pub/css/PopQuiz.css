@@ -92,9 +92,9 @@ button:hover {
   margin-left: auto;
   margin-right: auto;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
-  gap: 50%;
+  /* gap: 50%; */
 }
 #question-box {
   text-align: center;
@@ -107,6 +107,8 @@ button:hover {
 .quiz-button {
   background-color: #05386b;
   color: white;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 .quiz-button:hover {
   transform: scale(1.08);
@@ -287,7 +289,7 @@ button:hover {
   /* Usually an anti-A11Y practice but set to remove an annoyance just for this demo */
   outline: 0;
 }
-/*************************************************************/
+/*******************************loader css******************************/
 .loader {
   position: relative;
 }
