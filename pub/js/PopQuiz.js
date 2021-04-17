@@ -1,26 +1,4 @@
 "use strict";
-//The quiz object goes here
-
-
-/*
-Sample input of the quiz:
-
-{
-    elementId: 'myQuiz'
-    {
-        title: "What is your name?",
-        options: [
-            "Jack",
-            "Jhon",
-            "Jane",
-            "Michael"
-        ]
-        answer: "Michael"
-    }
-]
-time: '1:26'
-}
-*/
 
 
 (function(global, document) {
