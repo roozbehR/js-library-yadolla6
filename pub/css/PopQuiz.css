@@ -56,7 +56,7 @@ button:hover {
   color: red;
 }
 .card {
-  width: 80%;
+  width: 60%;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 10px;
@@ -346,4 +346,8 @@ button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#myTabContent {
+  width: 400px !important;
 }

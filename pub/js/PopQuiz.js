@@ -134,7 +134,7 @@ class Quiz {
         this.element.removeChild(this.loader);
     }
     #showFinishedTime = () => {
-        this.popUp = (new PopUp('Time is up! your score is ' + this.score.innerHTML + '/' + this.questionsArr.length * 5)).renderPopUp();
+        this.popUp = (new PopUp('Time is up! your score is ' + this.score.innerHTML)).renderPopUp();
         this.element.insertBefore(this.popUp, this.element.firstChild);
         clearInterval(this.timeInterval);
     }

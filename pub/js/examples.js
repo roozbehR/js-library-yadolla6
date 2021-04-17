@@ -1,70 +1,7 @@
-/* JS Library usage examples */
-"use strict";
+"user strict;"
 
-
-// Circle Generator
-// makeAQuiz({
-//     elementId: "#myQuiz",
-//     questionsArr: [
-//         {
-//             title: "Q1",
-//             options: [
-//                 "1",
-//                 "2",
-//                 "3",
-//                 "4"
-//             ],
-//             answer: "1"
-//         },
-//         {
-//             title: "Q2",
-//             options: [
-//                 "1",
-//                 "2",
-//                 "3",
-//                 "4"
-//             ],
-//             answer: "2"
-//         },
-//         {
-//             title: "Q3",
-//             options: [
-//                 "1",
-//                 "2",
-//                 "3",
-//                 "4"
-//             ],
-//             answer: "3"
-//         },
-//         {
-//             title: "Q4",
-//             options: [
-//                 "1",
-//                 "2",
-//                 "3",
-//                 "4"
-//             ],
-//             answer: "4"
-//         },
-//         {
-//             title: "Q5",
-//             options: [
-//                 "1",
-//                 "2",
-//                 "3",
-//                 "4"
-//             ],
-//             answer: "1"
-//         }
-//     ],
-//     time: {
-//         minutes: 0,
-//         seconds: 10
-//     }
-// });
-
-const quiz1 = new Quiz({
-    elementId: '#myQuiz2',
+const quiz = new Quiz({
+    elementId: '#myQuiz',
     questionsArr: [{
         title: 'What is first letter of Hi?',
         options: ['K',
@@ -86,17 +23,41 @@ const quiz1 = new Quiz({
         options: ['True',
             'False'],
         answer: 'True'
+    },
+    {
+        title: 'Is 309 the best web class ?',
+        options: ['Yes',
+            'No',
+            "I dont know",
+            "Maybe"],
+        answer: 'Yes'
+    },
+    {
+        title: 'Who is the president of US ?',
+        options: ['Trump',
+            'Biden',
+            "Bush",
+            "Carter"],
+        answer: 'Biden'
+    },
+    {
+        title: 'Where is Canada ?',
+        options: ['America',
+            'Africa',
+            "Asia",
+            "Europe"],
+        answer: 'America'
     }],
     time: {
         minutes: 0,
-        seconds: 20
+        seconds: 15
     }
 });
-quiz1.addStartQuiz();
-quiz1.addLoader();
-quiz1.addSubmitButton();
-quiz1.addTimeAbility();
-quiz1.render();
+quiz.addStartQuiz();
+quiz.addLoader();
+quiz.addSubmitButton();
+quiz.addTimeAbility();
+quiz.render();
 
 
 makeAQuiz({
