@@ -81,6 +81,92 @@ _Example_
 
 ```
 const quiz1 = new Quiz(json);
+
+```
+
+_json parameters_
+
+The json containst the paramters that the quiz requires and they have to be exactly as the example given below.
+
+elementId: is a div that the user creates before hand in the DOM and passes its id to the elementId as a string.
+questionsArr: Is an array of questions objects.
+time: This is a time object with minutes and seconds as its keys which both have to be integers.
+
+_Example_
+
+```
+{
+    elementId: '#myQuiz'
+    questionsArr: [{
+        title: 'What is first letter of Hi?',
+        options: ['K',
+            'J',
+            'H',
+            'M'],
+        answer: 'H'
+    },
+    {
+        title: 'What year is it ?',
+        options: ['2020',
+            '2021',
+            "1998",
+            "1920"],
+        answer: '2021'
+    },
+    {
+        title: 'True or False ? PopQuiz is Fun',
+        options: ['True',
+            'False'],
+        answer: 'True'
+    },
+    {
+        title: 'Is 309 the best web class ?',
+        options: ['Yes',
+            'No',
+            "I dont know",
+            "Maybe"],
+        answer: 'Yes'
+    },
+    {
+        title: 'Who is the president of US ?',
+        options: ['Trump',
+            'Biden',
+            "Bush",
+            "Carter"],
+        answer: 'Biden'
+    },
+    {
+        title: 'Where is Canada ?',
+        options: ['America',
+            'Africa',
+            "Asia",
+            "Europe"],
+        answer: 'America'
+    }],
+    time: {
+        minutes: 0,
+        seconds: 15
+    }
+}
+
+```
+
+quesion object has following key value pairs:
+title: a string that represnets the title of the question.
+options: an array of strings that represnets options of the question
+answer: a string that represnets the answer of the quiz.
+
+_Example of question object:_
+
+```
+    {
+        title: 'What year is it ?',
+        options: ['2020',
+            '2021',
+            "1998",
+            "1920"],
+        answer: '2021'
+    }
 ```
 
 ### Use the APIs Provided to Style Your Quiz
@@ -96,10 +182,26 @@ Consider following code snippet as an example how to render the quiz:
 _Example_
 
 ```
+
 quiz1.render();
+
 ```
 
-This will render your quiz and show it to you on you webpage
+What this provides is a quiz with bundle of functionalities and rules. Following are the default funtionalites of the quiz:
+
+```
+
+• A timer: Represnet time of the quiz.
+• A score counter: reprensets how many points the user has.
+• Alert: this timer also alerts the user if their time is below 10 seconds which means it is going to run out soon. If the time runs out you lose the quiz/game.
+• A score system: this score system is in a way that the faster you answer a question correctly the more points you get and the slower you answer the less points you get.
+The lowest point you can get is 5 points.
+• If you answer a qeustion wrong you will lose points
+• If you run out of time you lose the quiz/game.
+• If your score becomes negative you lose the quiz/game
+• You should always try to maintain a postive score to be able to continue the game
+
+```
 
 **Once the quiz renders you should not change it**
 
@@ -114,7 +216,9 @@ This API allows the user to create and overlay for the quiz which is a page that
 _Example Call_
 
 ```
+
 quiz1.addStartQuiz();
+
 ```
 
 **This returns an array of users, the sample shown above is not complete.**
@@ -126,7 +230,9 @@ This api adds a submit button to the quiz, hence gives the ability to the user t
 _Example Call_
 
 ```
+
 quiz1.addSubmitButton();
+
 ```
 
 ### Adding a Loader to the Quiz
@@ -141,8 +247,24 @@ quiz1.addLoader();
 
 ```
 
+### Adding a Time Booster to the Quiz
+
+This api adds a 'lamp' to the buttom of the quiz. Once this lamp is hit the user adds 10 seconds to the remaining time they have left. This acts as a timer booster to make the quiz more intresting and the user can only and only use it once per quiz.
+
+_Example Call_
+
+```
+
+quiz.addTimeAbility();
+
+```
+
 ## Libraries & Frameworks Used
 
 - Vanilla JavaScript
 - CSS
 - HTML
+
+```
+
+```
