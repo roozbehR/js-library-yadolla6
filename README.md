@@ -24,7 +24,7 @@ Welcome to PopQuiz, a javascript lirbrary to build coginitve games, quizzes, and
 
 ## Heroku Link
 
-https://moviebook309.herokuapp.com/ (Ensure that it is running in https as some requests may not work)
+https://pop-quiz-js.herokuapp.com/ (Ensure that it is running in https as some requests may not work)
 
 ## Getting Started With PopQuiz
 
