@@ -1,5 +1,7 @@
 body {
   background-image: url("./../images/ac_valhalla_settlement.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 @font-face {
   font-family: "ubisoft_sansbold";
@@ -56,7 +58,7 @@ button:hover {
   color: red;
 }
 .card {
-  width: 60%;
+  width: 50%;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 10px;
@@ -350,4 +352,11 @@ button:hover {
 
 #myTabContent {
   width: 400px !important;
+}
+
+.intro {
+  font-size: xx-large;
+  font-family: "ubisoft_sansbold";
+  font-style: italic;
+  color: red;
 }
